@@ -1,12 +1,19 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from "@inertiajs/vue3"
 import { computed } from "vue"
 
-const props = defineProps({
-  active: Boolean,
-  href: String,
-  as: String,
-})
+const props = withDefaults(
+  defineProps<{
+    active: boolean
+    href: string
+    as: string
+  }>(),
+  {
+    active: false,
+    href: "",
+    as: "",
+  },
+)
 
 const classes = computed(() => {
   return props.active
@@ -19,16 +26,16 @@ const classes = computed(() => {
   <div>
     <button
       v-if="as == 'button'"
-      :class="classes"
       class="w-full text-start"
+      :class="classes"
     >
       <slot />
     </button>
 
     <Link
       v-else
-      :href="href"
       :class="classes"
+      :href="href"
     >
       <slot />
     </Link>

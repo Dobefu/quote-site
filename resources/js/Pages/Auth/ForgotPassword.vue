@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import AuthenticationCard from "@/Components/AuthenticationCard.vue"
 import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue"
 import InputError from "@/Components/InputError.vue"
@@ -7,9 +7,14 @@ import PrimaryButton from "@/Components/PrimaryButton.vue"
 import TextInput from "@/Components/TextInput.vue"
 import { Head, useForm } from "@inertiajs/vue3"
 
-defineProps({
-  status: String,
-})
+withDefaults(
+  defineProps<{
+    status: string
+  }>(),
+  {
+    status: "",
+  },
+)
 
 const form = useForm({
   email: "",
@@ -50,11 +55,11 @@ const submit = () => {
         <TextInput
           id="email"
           v-model="form.email"
-          type="email"
+          autocomplete="username"
+          autofocus
           class="mt-1 block w-full"
           required
-          autofocus
-          autocomplete="username"
+          type="email"
         />
         <InputError
           class="mt-2"

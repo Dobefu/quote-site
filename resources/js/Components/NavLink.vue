@@ -1,11 +1,17 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from "@inertiajs/vue3"
 import { computed } from "vue"
 
-const props = defineProps({
-  href: String,
-  active: Boolean,
-})
+const props = withDefaults(
+  defineProps<{
+    href: string
+    active: boolean
+  }>(),
+  {
+    href: "",
+    active: false,
+  },
+)
 
 const classes = computed(() => {
   return props.active
@@ -16,8 +22,8 @@ const classes = computed(() => {
 
 <template>
   <Link
-    :href="href"
     :class="classes"
+    :href="href"
   >
     <slot />
   </Link>

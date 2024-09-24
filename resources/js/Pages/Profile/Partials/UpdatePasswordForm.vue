@@ -55,13 +55,13 @@ const updatePassword = () => {
           id="current_password"
           ref="currentPasswordInput"
           v-model="form.current_password"
-          type="password"
-          class="mt-1 block w-full"
           autocomplete="current-password"
+          class="mt-1 block w-full"
+          type="password"
         />
         <InputError
-          :message="form.errors.current_password"
           class="mt-2"
+          :message="form.errors.current_password"
         />
       </div>
 
@@ -74,13 +74,13 @@ const updatePassword = () => {
           id="password"
           ref="passwordInput"
           v-model="form.password"
-          type="password"
-          class="mt-1 block w-full"
           autocomplete="new-password"
+          class="mt-1 block w-full"
+          type="password"
         />
         <InputError
-          :message="form.errors.password"
           class="mt-2"
+          :message="form.errors.password"
         />
       </div>
 
@@ -92,21 +92,21 @@ const updatePassword = () => {
         <TextInput
           id="password_confirmation"
           v-model="form.password_confirmation"
-          type="password"
-          class="mt-1 block w-full"
           autocomplete="new-password"
+          class="mt-1 block w-full"
+          type="password"
         />
         <InputError
-          :message="form.errors.password_confirmation"
           class="mt-2"
+          :message="form.errors.password_confirmation"
         />
       </div>
     </template>
 
     <template #actions>
       <ActionMessage
-        :on="form.recentlySuccessful"
         class="me-3"
+        :on="form.recentlySuccessful"
       >
         Saved.
       </ActionMessage>

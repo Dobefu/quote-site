@@ -48,11 +48,11 @@ const submit = () => {
           id="password"
           ref="passwordInput"
           v-model="form.password"
-          type="password"
-          class="mt-1 block w-full"
-          required
           autocomplete="current-password"
           autofocus
+          class="mt-1 block w-full"
+          required
+          type="password"
         />
         <InputError
           class="mt-2"

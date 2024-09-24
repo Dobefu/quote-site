@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import ActionMessage from "@/Components/ActionMessage.vue"
 import ActionSection from "@/Components/ActionSection.vue"
 import DialogModal from "@/Components/DialogModal.vue"
@@ -9,9 +9,14 @@ import TextInput from "@/Components/TextInput.vue"
 import { useForm } from "@inertiajs/vue3"
 import { ref } from "vue"
 
-defineProps({
-  sessions: Array,
-})
+withDefaults(
+  defineProps<{
+    sessions: Array
+  }>(),
+  {
+    sessions: () => [],
+  },
+)
 
 const confirmingLogout = ref(false)
 const passwordInput = ref(null)
@@ -72,32 +77,32 @@ const closeModal = () => {
             <svg
               v-if="session.agent.is_desktop"
               class="h-8 w-8 text-gray-500"
-              xmlns="http://www.w3.org/2000/svg"
               fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
               stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
+                d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"
               />
             </svg>
 
             <svg
               v-else
               class="h-8 w-8 text-gray-500"
-              xmlns="http://www.w3.org/2000/svg"
               fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
               stroke="currentColor"
+              stroke-width="1.5"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
+                d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3"
               />
             </svg>
           </div>
@@ -130,8 +135,8 @@ const closeModal = () => {
         </PrimaryButton>
 
         <ActionMessage
-          :on="form.recentlySuccessful"
           class="ms-3"
+          :on="form.recentlySuccessful"
         >
           Done.
         </ActionMessage>
@@ -152,16 +157,16 @@ const closeModal = () => {
             <TextInput
               ref="passwordInput"
               v-model="form.password"
-              type="password"
+              autocomplete="current-password"
               class="mt-1 block w-3/4"
               placeholder="Password"
-              autocomplete="current-password"
+              type="password"
               @keyup.enter="logoutOtherBrowserSessions"
             />
 
             <InputError
-              :message="form.errors.password"
               class="mt-2"
+              :message="form.errors.password"
             />
           </div>
         </template>

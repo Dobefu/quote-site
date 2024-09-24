@@ -56,21 +56,25 @@ const enableTwoFactorAuthentication = () => {
 }
 
 const showQrCode = () => {
-  return axios.get(route("two-factor.qr-code")).then((response) => {
+  return globalThis.axios.get(route("two-factor.qr-code")).then((response) => {
     qrCode.value = response.data.svg
   })
 }
 
 const showSetupKey = () => {
-  return axios.get(route("two-factor.secret-key")).then((response) => {
-    setupKey.value = response.data.secretKey
-  })
+  return globalThis.axios
+    .get(route("two-factor.secret-key"))
+    .then((response) => {
+      setupKey.value = response.data.secretKey
+    })
 }
 
 const showRecoveryCodes = () => {
-  return axios.get(route("two-factor.recovery-codes")).then((response) => {
-    recoveryCodes.value = response.data
-  })
+  return globalThis.axios
+    .get(route("two-factor.recovery-codes"))
+    .then((response) => {
+      recoveryCodes.value = response.data
+    })
 }
 
 const confirmTwoFactorAuthentication = () => {
@@ -87,7 +91,9 @@ const confirmTwoFactorAuthentication = () => {
 }
 
 const regenerateRecoveryCodes = () => {
-  axios.post(route("two-factor.recovery-codes")).then(() => showRecoveryCodes())
+  globalThis.axios
+    .post(route("two-factor.recovery-codes"))
+    .then(() => showRecoveryCodes())
 }
 
 const disableTwoFactorAuthentication = () => {
@@ -104,6 +110,8 @@ const disableTwoFactorAuthentication = () => {
 </script>
 
 <template>
+  <!-- eslint-disable vue/no-v-html -->
+
   <ActionSection>
     <template #title> Two Factor Authentication </template>
 
@@ -186,18 +194,18 @@ const disableTwoFactorAuthentication = () => {
             <TextInput
               id="code"
               v-model="confirmationForm.code"
-              type="text"
-              name="code"
+              autocomplete="one-time-code"
+              autofocus
               class="mt-1 block w-1/2"
               inputmode="numeric"
-              autofocus
-              autocomplete="one-time-code"
+              name="code"
+              type="text"
               @keyup.enter="confirmTwoFactorAuthentication"
             />
 
             <InputError
-              :message="confirmationForm.errors.code"
               class="mt-2"
+              :message="confirmationForm.errors.code"
             />
           </div>
         </div>
@@ -228,9 +236,9 @@ const disableTwoFactorAuthentication = () => {
         <div v-if="!twoFactorEnabled">
           <ConfirmsPassword @confirmed="enableTwoFactorAuthentication">
             <PrimaryButton
-              type="button"
               :class="{ 'opacity-25': enabling }"
               :disabled="enabling"
+              type="button"
             >
               Enable
             </PrimaryButton>
@@ -241,10 +249,10 @@ const disableTwoFactorAuthentication = () => {
           <ConfirmsPassword @confirmed="confirmTwoFactorAuthentication">
             <PrimaryButton
               v-if="confirming"
-              type="button"
               class="me-3"
               :class="{ 'opacity-25': enabling }"
               :disabled="enabling"
+              type="button"
             >
               Confirm
             </PrimaryButton>

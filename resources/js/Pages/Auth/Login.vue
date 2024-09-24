@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import AuthenticationCard from "@/Components/AuthenticationCard.vue"
 import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue"
 import Checkbox from "@/Components/Checkbox.vue"
@@ -8,10 +8,16 @@ import PrimaryButton from "@/Components/PrimaryButton.vue"
 import TextInput from "@/Components/TextInput.vue"
 import { Head, Link, useForm } from "@inertiajs/vue3"
 
-defineProps({
-  canResetPassword: Boolean,
-  status: String,
-})
+withDefaults(
+  defineProps<{
+    canResetPassword: boolean
+    status: string
+  }>(),
+  {
+    canResetPassword: false,
+    status: "",
+  },
+)
 
 const form = useForm({
   email: "",
@@ -55,11 +61,11 @@ const submit = () => {
         <TextInput
           id="email"
           v-model="form.email"
-          type="email"
+          autocomplete="username"
+          autofocus
           class="mt-1 block w-full"
           required
-          autofocus
-          autocomplete="username"
+          type="email"
         />
         <InputError
           class="mt-2"
@@ -75,10 +81,10 @@ const submit = () => {
         <TextInput
           id="password"
           v-model="form.password"
-          type="password"
+          autocomplete="current-password"
           class="mt-1 block w-full"
           required
-          autocomplete="current-password"
+          type="password"
         />
         <InputError
           class="mt-2"
@@ -101,8 +107,8 @@ const submit = () => {
       <div class="mt-4 flex items-center justify-end">
         <Link
           v-if="canResetPassword"
-          :href="route('password.request')"
           class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+          :href="route('password.request')"
         >
           Forgot your password?
         </Link>

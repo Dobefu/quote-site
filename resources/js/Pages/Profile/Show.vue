@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import SectionBorder from "@/Components/SectionBorder.vue"
 import AppLayout from "@/Layouts/AppLayout.vue"
 import DeleteUserForm from "@/Pages/Profile/Partials/DeleteUserForm.vue"
@@ -7,10 +7,15 @@ import TwoFactorAuthenticationForm from "@/Pages/Profile/Partials/TwoFactorAuthe
 import UpdatePasswordForm from "@/Pages/Profile/Partials/UpdatePasswordForm.vue"
 import UpdateProfileInformationForm from "@/Pages/Profile/Partials/UpdateProfileInformationForm.vue"
 
-defineProps({
-  confirmsTwoFactorAuthentication: Boolean,
-  sessions: Array,
-})
+withDefaults(
+  defineProps<{
+    confirmsTwoFactorAuthentication: boolean
+    sessions: Array
+  }>(),
+  {
+    sessions: () => [],
+  },
+)
 </script>
 
 <template>
@@ -39,16 +44,16 @@ defineProps({
 
         <div v-if="$page.props.jetstream.canManageTwoFactorAuthentication">
           <TwoFactorAuthenticationForm
-            :requires-confirmation="confirmsTwoFactorAuthentication"
             class="mt-10 sm:mt-0"
+            :requires-confirmation="confirmsTwoFactorAuthentication"
           />
 
           <SectionBorder />
         </div>
 
         <LogoutOtherBrowserSessionsForm
-          :sessions="sessions"
           class="mt-10 sm:mt-0"
+          :sessions="sessions"
         />
 
         <template v-if="$page.props.jetstream.hasAccountDeletionFeatures">

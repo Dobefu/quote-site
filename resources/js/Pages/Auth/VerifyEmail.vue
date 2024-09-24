@@ -1,13 +1,18 @@
-<script setup>
+<script setup lang="ts">
 import AuthenticationCard from "@/Components/AuthenticationCard.vue"
 import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue"
 import PrimaryButton from "@/Components/PrimaryButton.vue"
 import { Head, Link, useForm } from "@inertiajs/vue3"
 import { computed } from "vue"
 
-const props = defineProps({
-  status: String,
-})
+const props = withDefaults(
+  defineProps<{
+    status: string
+  }>(),
+  {
+    status: "",
+  },
+)
 
 const form = useForm({})
 
@@ -53,17 +58,17 @@ const verificationLinkSent = computed(
 
         <div>
           <Link
-            :href="route('profile.show')"
             class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+            :href="route('profile.show')"
           >
             Edit Profile</Link
           >
 
           <Link
-            :href="route('logout')"
-            method="post"
             as="button"
             class="ms-2 rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+            :href="route('logout')"
+            method="post"
           >
             Log Out
           </Link>

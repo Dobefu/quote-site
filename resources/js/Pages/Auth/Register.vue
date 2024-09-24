@@ -40,11 +40,11 @@ const submit = () => {
         <TextInput
           id="name"
           v-model="form.name"
-          type="text"
+          autocomplete="name"
+          autofocus
           class="mt-1 block w-full"
           required
-          autofocus
-          autocomplete="name"
+          type="text"
         />
         <InputError
           class="mt-2"
@@ -60,10 +60,10 @@ const submit = () => {
         <TextInput
           id="email"
           v-model="form.email"
-          type="email"
+          autocomplete="username"
           class="mt-1 block w-full"
           required
-          autocomplete="username"
+          type="email"
         />
         <InputError
           class="mt-2"
@@ -79,10 +79,10 @@ const submit = () => {
         <TextInput
           id="password"
           v-model="form.password"
-          type="password"
+          autocomplete="new-password"
           class="mt-1 block w-full"
           required
-          autocomplete="new-password"
+          type="password"
         />
         <InputError
           class="mt-2"
@@ -98,10 +98,10 @@ const submit = () => {
         <TextInput
           id="password_confirmation"
           v-model="form.password_confirmation"
-          type="password"
+          autocomplete="new-password"
           class="mt-1 block w-full"
           required
-          autocomplete="new-password"
+          type="password"
         />
         <InputError
           class="mt-2"
@@ -125,16 +125,16 @@ const submit = () => {
             <div class="ms-2">
               I agree to the
               <a
-                target="_blank"
-                :href="route('terms.show')"
                 class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                :href="route('terms.show')"
+                target="_blank"
                 >Terms of Service</a
               >
               and
               <a
-                target="_blank"
-                :href="route('policy.show')"
                 class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+                :href="route('policy.show')"
+                target="_blank"
                 >Privacy Policy</a
               >
             </div>
@@ -148,8 +148,8 @@ const submit = () => {
 
       <div class="mt-4 flex items-center justify-end">
         <Link
-          :href="route('login')"
           class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+          :href="route('login')"
         >
           Already registered?
         </Link>

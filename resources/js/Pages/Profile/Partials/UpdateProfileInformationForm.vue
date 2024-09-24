@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import ActionMessage from "@/Components/ActionMessage.vue"
 import FormSection from "@/Components/FormSection.vue"
 import InputError from "@/Components/InputError.vue"
@@ -9,9 +9,14 @@ import TextInput from "@/Components/TextInput.vue"
 import { Link, router, useForm } from "@inertiajs/vue3"
 import { ref } from "vue"
 
-const props = defineProps({
-  user: Object,
-})
+const props = withDefaults(
+  defineProps<{
+    user: object
+  }>(),
+  {
+    user: () => {},
+  },
+)
 
 const form = useForm({
   _method: "PUT",
@@ -93,8 +98,8 @@ const clearPhotoFileInput = () => {
         <input
           id="photo"
           ref="photoInput"
-          type="file"
           class="hidden"
+          type="file"
           @change="updatePhotoPreview"
         />
 
@@ -109,9 +114,9 @@ const clearPhotoFileInput = () => {
           class="mt-2"
         >
           <img
-            :src="user.profile_photo_url"
             :alt="user.name"
             class="h-20 w-20 rounded-full object-cover"
+            :src="user.profile_photo_url"
           />
         </div>
 
@@ -136,16 +141,16 @@ const clearPhotoFileInput = () => {
 
         <SecondaryButton
           v-if="user.profile_photo_path"
-          type="button"
           class="mt-2"
+          type="button"
           @click.prevent="deletePhoto"
         >
           Remove Photo
         </SecondaryButton>
 
         <InputError
-          :message="form.errors.photo"
           class="mt-2"
+          :message="form.errors.photo"
         />
       </div>
 
@@ -158,14 +163,14 @@ const clearPhotoFileInput = () => {
         <TextInput
           id="name"
           v-model="form.name"
-          type="text"
+          autocomplete="name"
           class="mt-1 block w-full"
           required
-          autocomplete="name"
+          type="text"
         />
         <InputError
-          :message="form.errors.name"
           class="mt-2"
+          :message="form.errors.name"
         />
       </div>
 
@@ -178,14 +183,14 @@ const clearPhotoFileInput = () => {
         <TextInput
           id="email"
           v-model="form.email"
-          type="email"
+          autocomplete="username"
           class="mt-1 block w-full"
           required
-          autocomplete="username"
+          type="email"
         />
         <InputError
-          :message="form.errors.email"
           class="mt-2"
+          :message="form.errors.email"
         />
 
         <div
@@ -198,10 +203,10 @@ const clearPhotoFileInput = () => {
             Your email address is unverified.
 
             <Link
-              :href="route('verification.send')"
-              method="post"
               as="button"
               class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
+              :href="route('verification.send')"
+              method="post"
               @click.prevent="sendEmailVerification"
             >
               Click here to re-send the verification email.
@@ -220,8 +225,8 @@ const clearPhotoFileInput = () => {
 
     <template #actions>
       <ActionMessage
-        :on="form.recentlySuccessful"
         class="me-3"
+        :on="form.recentlySuccessful"
       >
         Saved.
       </ActionMessage>

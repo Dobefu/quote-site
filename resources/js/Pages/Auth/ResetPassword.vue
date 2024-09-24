@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import AuthenticationCard from "@/Components/AuthenticationCard.vue"
 import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue"
 import InputError from "@/Components/InputError.vue"
@@ -7,10 +7,16 @@ import PrimaryButton from "@/Components/PrimaryButton.vue"
 import TextInput from "@/Components/TextInput.vue"
 import { Head, useForm } from "@inertiajs/vue3"
 
-const props = defineProps({
-  email: String,
-  token: String,
-})
+const props = withDefaults(
+  defineProps<{
+    email: string
+    token: string
+  }>(),
+  {
+    email: "",
+    token: "",
+  },
+)
 
 const form = useForm({
   token: props.token,
@@ -43,11 +49,11 @@ const submit = () => {
         <TextInput
           id="email"
           v-model="form.email"
-          type="email"
+          autocomplete="username"
+          autofocus
           class="mt-1 block w-full"
           required
-          autofocus
-          autocomplete="username"
+          type="email"
         />
         <InputError
           class="mt-2"
@@ -63,10 +69,10 @@ const submit = () => {
         <TextInput
           id="password"
           v-model="form.password"
-          type="password"
+          autocomplete="new-password"
           class="mt-1 block w-full"
           required
-          autocomplete="new-password"
+          type="password"
         />
         <InputError
           class="mt-2"
@@ -82,10 +88,10 @@ const submit = () => {
         <TextInput
           id="password_confirmation"
           v-model="form.password_confirmation"
-          type="password"
+          autocomplete="new-password"
           class="mt-1 block w-full"
           required
-          autocomplete="new-password"
+          type="password"
         />
         <InputError
           class="mt-2"

@@ -1,13 +1,19 @@
-<script setup>
+<script setup lang="ts">
 import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue"
 import { Head } from "@inertiajs/vue3"
 
-defineProps({
-  terms: String,
+interface Props {
+  terms: string
+}
+
+withDefaults(defineProps<Props>(), {
+  terms: "",
 })
 </script>
 
 <template>
+  <!-- eslint-disable vue/no-v-html -->
+
   <Head title="Terms of Service" />
 
   <div class="font-sans text-gray-900 antialiased dark:text-gray-100">

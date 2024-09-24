@@ -35,7 +35,7 @@ const form = reactive({
 const passwordInput = ref(null)
 
 const startConfirmingPassword = () => {
-  axios.get(route("password.confirmation")).then((response) => {
+  globalThis.axios.get(route("password.confirmation")).then((response) => {
     if (response.data.confirmed) {
       emit("confirmed")
     } else {
@@ -49,7 +49,7 @@ const startConfirmingPassword = () => {
 const confirmPassword = () => {
   form.processing = true
 
-  axios
+  globalThis.axios
     .post(route("password.confirm"), {
       password: form.password,
     })
@@ -94,16 +94,16 @@ const closeModal = () => {
           <TextInput
             ref="passwordInput"
             v-model="form.password"
-            type="password"
+            autocomplete="current-password"
             class="mt-1 block w-3/4"
             placeholder="Password"
-            autocomplete="current-password"
+            type="password"
             @keyup.enter="confirmPassword"
           />
 
           <InputError
-            :message="form.error"
             class="mt-2"
+            :message="form.error"
           />
         </div>
       </template>

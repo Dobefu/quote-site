@@ -73,16 +73,16 @@ const closeModal = () => {
             <TextInput
               ref="passwordInput"
               v-model="form.password"
-              type="password"
+              autocomplete="current-password"
               class="mt-1 block w-3/4"
               placeholder="Password"
-              autocomplete="current-password"
+              type="password"
               @keyup.enter="deleteUser"
             />
 
             <InputError
-              :message="form.errors.password"
               class="mt-2"
+              :message="form.errors.password"
             />
           </div>
         </template>

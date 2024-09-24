@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import ActionMessage from "@/Components/ActionMessage.vue"
 import ActionSection from "@/Components/ActionSection.vue"
 import Checkbox from "@/Components/Checkbox.vue"
@@ -15,11 +15,18 @@ import TextInput from "@/Components/TextInput.vue"
 import { useForm } from "@inertiajs/vue3"
 import { ref } from "vue"
 
-const props = defineProps({
-  tokens: Array,
-  availablePermissions: Array,
-  defaultPermissions: Array,
-})
+const props = withDefaults(
+  defineProps<{
+    tokens: Array
+    availablePermissions: Array
+    defaultPermissions: Array
+  }>(),
+  {
+    tokens: () => [],
+    availablePermissions: () => [],
+    defaultPermissions: () => [],
+  },
+)
 
 const createApiTokenForm = useForm({
   name: "",
@@ -99,13 +106,13 @@ const deleteApiToken = () => {
           <TextInput
             id="name"
             v-model="createApiTokenForm.name"
-            type="text"
-            class="mt-1 block w-full"
             autofocus
+            class="mt-1 block w-full"
+            type="text"
           />
           <InputError
-            :message="createApiTokenForm.errors.name"
             class="mt-2"
+            :message="createApiTokenForm.errors.name"
           />
         </div>
 
@@ -140,8 +147,8 @@ const deleteApiToken = () => {
 
       <template #actions>
         <ActionMessage
-          :on="createApiTokenForm.recentlySuccessful"
           class="me-3"
+          :on="createApiTokenForm.recentlySuccessful"
         >
           Created.
         </ActionMessage>
