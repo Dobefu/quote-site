@@ -115,8 +115,8 @@ function handleImageError() {
         <main class="mt-6">
           <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
             <a
-              href="https://laravel.com/docs"
               id="docs-card"
+              href="https://laravel.com/docs"
               class="flex flex-col items-start gap-6 overflow-hidden rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] md:row-span-3 lg:p-10 lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]"
             >
               <div
@@ -136,7 +136,7 @@ function handleImageError() {
                 />
                 <div
                   class="absolute -bottom-16 -left-16 h-40 w-[calc(100%+8rem)] bg-gradient-to-b from-transparent via-white to-white dark:via-zinc-900 dark:to-zinc-900"
-                ></div>
+                />
               </div>
 
               <div class="relative flex items-center gap-6 lg:items-end">
@@ -327,10 +327,12 @@ function handleImageError() {
                 <p class="mt-4 text-sm/relaxed">
                   Laravel's robust library of first-party tools and libraries,
                   such as
+
                   <a
                     href="https://forge.laravel.com"
                     class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white dark:focus-visible:ring-[#FF2D20]"
-                    >Forge</a
+                  >
+                    Forge </a
                   >,
                   <a
                     href="https://vapor.laravel.com"
@@ -372,7 +374,8 @@ function handleImageError() {
                   <a
                     href="https://laravel.com/docs/sanctum"
                     class="rounded-sm underline hover:text-black focus:outline-none focus-visible:ring-1 focus-visible:ring-[#FF2D20] dark:hover:text-white"
-                    >Sanctum</a
+                  >
+                    Sanctum </a
                   >,
                   <a
                     href="https://laravel.com/docs/telescope"
