@@ -12,14 +12,15 @@ import PrimaryButton from "@/Components/PrimaryButton.vue"
 import SecondaryButton from "@/Components/SecondaryButton.vue"
 import SectionBorder from "@/Components/SectionBorder.vue"
 import TextInput from "@/Components/TextInput.vue"
+import ApiToken from "@/types/api-token"
 import { useForm } from "@inertiajs/vue3"
 import { ref } from "vue"
 
 const props = withDefaults(
   defineProps<{
-    tokens: Array
-    availablePermissions: Array
-    defaultPermissions: Array
+    tokens: ApiToken[]
+    availablePermissions: string[]
+    defaultPermissions: string[]
   }>(),
   {
     tokens: () => [],
@@ -33,15 +34,15 @@ const createApiTokenForm = useForm({
   permissions: props.defaultPermissions,
 })
 
-const updateApiTokenForm = useForm({
+const updateApiTokenForm = useForm<{ permissions: string[] }>({
   permissions: [],
 })
 
 const deleteApiTokenForm = useForm({})
 
 const displayingToken = ref(false)
-const managingPermissionsFor = ref(null)
-const apiTokenBeingDeleted = ref(null)
+const managingPermissionsFor = ref<ApiToken | null>(null)
+const apiTokenBeingDeleted = ref<ApiToken | null>(null)
 
 const createApiToken = () => {
   createApiTokenForm.post(route("api-tokens.store"), {
@@ -53,7 +54,9 @@ const createApiToken = () => {
   })
 }
 
-const manageApiTokenPermissions = (token) => {
+const manageApiTokenPermissions = (token: ApiToken) => {
+  if (!managingPermissionsFor.value) return
+
   updateApiTokenForm.permissions = token.abilities
   managingPermissionsFor.value = token
 }
@@ -69,7 +72,9 @@ const updateApiToken = () => {
   )
 }
 
-const confirmApiTokenDeletion = (token) => {
+const confirmApiTokenDeletion = (token: ApiToken) => {
+  if (!apiTokenBeingDeleted.value) return
+
   apiTokenBeingDeleted.value = token
 }
 
@@ -112,7 +117,7 @@ const deleteApiToken = () => {
           />
           <InputError
             class="mt-2"
-            :message="createApiTokenForm.errors.name"
+            :message="createApiTokenForm.errors.name ?? ''"
           />
         </div>
 

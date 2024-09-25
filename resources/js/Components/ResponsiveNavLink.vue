@@ -4,9 +4,9 @@ import { computed } from "vue"
 
 const props = withDefaults(
   defineProps<{
-    active: boolean
-    href: string
-    as: string
+    active?: boolean
+    href?: string
+    as?: string
   }>(),
   {
     active: false,

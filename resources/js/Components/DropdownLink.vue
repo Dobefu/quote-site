@@ -3,8 +3,8 @@ import { Link } from "@inertiajs/vue3"
 
 withDefaults(
   defineProps<{
-    href: string
-    as: string
+    href?: string
+    as?: string
   }>(),
   {
     href: "",

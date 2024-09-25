@@ -6,12 +6,13 @@ import InputError from "@/Components/InputError.vue"
 import PrimaryButton from "@/Components/PrimaryButton.vue"
 import SecondaryButton from "@/Components/SecondaryButton.vue"
 import TextInput from "@/Components/TextInput.vue"
+import BrowserSession from "@/types/browser-session"
 import { useForm } from "@inertiajs/vue3"
 import { ref } from "vue"
 
 withDefaults(
   defineProps<{
-    sessions: Array
+    sessions: BrowserSession[]
   }>(),
   {
     sessions: () => [],
@@ -19,7 +20,7 @@ withDefaults(
 )
 
 const confirmingLogout = ref(false)
-const passwordInput = ref(null)
+const passwordInput = ref<HTMLInputElement | null>(null)
 
 const form = useForm({
   password: "",
@@ -28,14 +29,14 @@ const form = useForm({
 const confirmLogout = () => {
   confirmingLogout.value = true
 
-  setTimeout(() => passwordInput.value.focus(), 250)
+  setTimeout(() => passwordInput.value?.focus(), 250)
 }
 
 const logoutOtherBrowserSessions = () => {
   form.delete(route("other-browser-sessions.destroy"), {
     preserveScroll: true,
     onSuccess: () => closeModal(),
-    onError: () => passwordInput.value.focus(),
+    onError: () => passwordInput.value?.focus(),
     onFinish: () => form.reset(),
   })
 }
@@ -166,7 +167,7 @@ const closeModal = () => {
 
             <InputError
               class="mt-2"
-              :message="form.errors.password"
+              :message="form.errors.password ?? ''"
             />
           </div>
         </template>

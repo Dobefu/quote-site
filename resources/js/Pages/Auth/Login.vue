@@ -69,7 +69,7 @@ const submit = () => {
         />
         <InputError
           class="mt-2"
-          :message="form.errors.email"
+          :message="form.errors.email ?? ''"
         />
       </div>
 
@@ -88,7 +88,7 @@ const submit = () => {
         />
         <InputError
           class="mt-2"
-          :message="form.errors.password"
+          :message="form.errors.password ?? ''"
         />
       </div>
 

@@ -19,7 +19,7 @@ withDefaults(
 
 const showingNavigationDropdown = ref(false)
 
-const switchToTeam = (team) => {
+const switchToTeam = (team: { id: string }) => {
   router.put(
     route("current-team.update"),
     {

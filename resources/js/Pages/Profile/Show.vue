@@ -6,11 +6,12 @@ import LogoutOtherBrowserSessionsForm from "@/Pages/Profile/Partials/LogoutOther
 import TwoFactorAuthenticationForm from "@/Pages/Profile/Partials/TwoFactorAuthenticationForm.vue"
 import UpdatePasswordForm from "@/Pages/Profile/Partials/UpdatePasswordForm.vue"
 import UpdateProfileInformationForm from "@/Pages/Profile/Partials/UpdateProfileInformationForm.vue"
+import BrowserSession from "@/types/browser-session"
 
 withDefaults(
   defineProps<{
     confirmsTwoFactorAuthentication: boolean
-    sessions: Array
+    sessions: BrowserSession[]
   }>(),
   {
     sessions: () => [],

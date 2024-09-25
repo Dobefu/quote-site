@@ -9,9 +9,9 @@ withDefaults(
     defaultPermissions: Array
   }>(),
   {
-    tokens: () => {},
-    availablePermissions: () => {},
-    defaultPermissions: () => {},
+    tokens: () => [],
+    availablePermissions: () => [],
+    defaultPermissions: () => [],
   },
 )
 </script>
