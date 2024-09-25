@@ -5,6 +5,7 @@ import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers"
 import type { DefineComponent } from "vue"
 import { createSSRApp, h } from "vue"
 import { ZiggyVue } from "../../vendor/tightenco/ziggy"
+import { PageProps } from "./types"
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel"
 
@@ -22,8 +23,10 @@ createServer((page) =>
       return createSSRApp({ render: () => h(App, props) })
         .use(plugin)
         .use(ZiggyVue, {
-          ...page.props.ziggy,
-          location: new URL(page.props.ziggy.location),
+          ...(page.props as unknown as PageProps).ziggy,
+          location: new URL(
+            (page.props as unknown as PageProps).ziggy.location,
+          ),
         })
     },
   }),

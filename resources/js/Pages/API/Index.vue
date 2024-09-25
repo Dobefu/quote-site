@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import AppLayout from "@/Layouts/AppLayout.vue"
 import ApiTokenManager from "@/Pages/API/Partials/ApiTokenManager.vue"
+import ApiToken from "@/types/api-token"
 
 withDefaults(
   defineProps<{
-    tokens: Array
-    availablePermissions: Array
-    defaultPermissions: Array
+    tokens: ApiToken[]
+    availablePermissions: string[]
+    defaultPermissions: string[]
   }>(),
   {
     tokens: () => [],

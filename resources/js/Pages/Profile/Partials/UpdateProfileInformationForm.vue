@@ -6,32 +6,38 @@ import InputLabel from "@/Components/InputLabel.vue"
 import PrimaryButton from "@/Components/PrimaryButton.vue"
 import SecondaryButton from "@/Components/SecondaryButton.vue"
 import TextInput from "@/Components/TextInput.vue"
-import { Link, router, useForm } from "@inertiajs/vue3"
+import { User } from "@/types"
+import { Link, router, useForm, usePage } from "@inertiajs/vue3"
 import { ref } from "vue"
 
-const props = withDefaults(
-  defineProps<{
-    user: object
-  }>(),
-  {
-    user: () => {},
+const props = defineProps({
+  user: {
+    type: Object as () => User,
+    required: true,
   },
-)
+})
 
-const form = useForm({
+const page = usePage()
+
+const form = useForm<{
+  _method: string
+  name: string
+  email: string
+  photo: File | null
+}>({
   _method: "PUT",
   name: props.user.name,
   email: props.user.email,
   photo: null,
 })
 
-const verificationLinkSent = ref(null)
-const photoPreview = ref(null)
-const photoInput = ref(null)
+const verificationLinkSent = ref<boolean | null>(null)
+const photoPreview = ref<string | ArrayBuffer | null>(null)
+const photoInput = ref<HTMLInputElement | null>(null)
 
 const updateProfileInformation = () => {
   if (photoInput.value) {
-    form.photo = photoInput.value.files[0]
+    form.photo = photoInput.value.files ? photoInput.value.files[0] : null
   }
 
   form.post(route("user-profile-information.update"), {
@@ -46,10 +52,12 @@ const sendEmailVerification = () => {
 }
 
 const selectNewPhoto = () => {
-  photoInput.value.click()
+  photoInput.value?.click()
 }
 
 const updatePhotoPreview = () => {
+  if (!photoInput.value?.files) return
+
   const photo = photoInput.value.files[0]
 
   if (!photo) return
@@ -57,7 +65,7 @@ const updatePhotoPreview = () => {
   const reader = new FileReader()
 
   reader.onload = (e) => {
-    photoPreview.value = e.target.result
+    photoPreview.value = e.target?.result ?? null
   }
 
   reader.readAsDataURL(photo)
@@ -75,7 +83,7 @@ const deletePhoto = () => {
 
 const clearPhotoFileInput = () => {
   if (photoInput.value?.value) {
-    photoInput.value.value = null
+    photoInput.value.value = ""
   }
 }
 </script>
@@ -91,7 +99,7 @@ const clearPhotoFileInput = () => {
     <template #form>
       <!-- Profile Photo -->
       <div
-        v-if="$page.props.jetstream.managesProfilePhotos"
+        v-if="page.props.jetstream.managesProfilePhotos"
         class="col-span-6 sm:col-span-4"
       >
         <!-- Profile Photo File Input -->
@@ -150,7 +158,7 @@ const clearPhotoFileInput = () => {
 
         <InputError
           class="mt-2"
-          :message="form.errors.photo"
+          :message="form.errors.photo ?? ''"
         />
       </div>
 
@@ -170,7 +178,7 @@ const clearPhotoFileInput = () => {
         />
         <InputError
           class="mt-2"
-          :message="form.errors.name"
+          :message="form.errors.name ?? ''"
         />
       </div>
 
@@ -190,12 +198,12 @@ const clearPhotoFileInput = () => {
         />
         <InputError
           class="mt-2"
-          :message="form.errors.email"
+          :message="form.errors.email ?? ''"
         />
 
         <div
           v-if="
-            $page.props.jetstream.hasEmailVerification &&
+            page.props.jetstream.hasEmailVerification &&
             user.email_verified_at === null
           "
         >

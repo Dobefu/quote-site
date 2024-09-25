@@ -13,7 +13,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue"
 import SectionBorder from "@/Components/SectionBorder.vue"
 import TextInput from "@/Components/TextInput.vue"
 import ApiToken from "@/types/api-token"
-import { useForm } from "@inertiajs/vue3"
+import { useForm, usePage } from "@inertiajs/vue3"
 import { ref } from "vue"
 
 const props = withDefaults(
@@ -28,6 +28,8 @@ const props = withDefaults(
     defaultPermissions: () => [],
   },
 )
+
+const page = usePage()
 
 const createApiTokenForm = useForm({
   name: "",
@@ -236,10 +238,10 @@ const deleteApiToken = () => {
         </div>
 
         <div
-          v-if="$page.props.jetstream.flash.token"
+          v-if="page.props.jetstream.flash.token"
           class="mt-4 break-all rounded bg-gray-100 px-4 py-2 font-mono text-sm text-gray-500 dark:bg-gray-900"
         >
-          {{ $page.props.jetstream.flash.token }}
+          {{ page.props.jetstream.flash.token }}
         </div>
       </template>
 

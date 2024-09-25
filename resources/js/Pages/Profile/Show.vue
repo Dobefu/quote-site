@@ -7,6 +7,7 @@ import TwoFactorAuthenticationForm from "@/Pages/Profile/Partials/TwoFactorAuthe
 import UpdatePasswordForm from "@/Pages/Profile/Partials/UpdatePasswordForm.vue"
 import UpdateProfileInformationForm from "@/Pages/Profile/Partials/UpdateProfileInformationForm.vue"
 import BrowserSession from "@/types/browser-session"
+import { usePage } from "@inertiajs/vue3"
 
 withDefaults(
   defineProps<{
@@ -17,6 +18,8 @@ withDefaults(
     sessions: () => [],
   },
 )
+
+const page = usePage()
 </script>
 
 <template>
@@ -31,19 +34,19 @@ withDefaults(
 
     <div>
       <div class="mx-auto max-w-7xl py-10 sm:px-6 lg:px-8">
-        <div v-if="$page.props.jetstream.canUpdateProfileInformation">
-          <UpdateProfileInformationForm :user="$page.props.auth.user" />
+        <div v-if="page.props.jetstream.canUpdateProfileInformation">
+          <UpdateProfileInformationForm :user="page.props.auth.user" />
 
           <SectionBorder />
         </div>
 
-        <div v-if="$page.props.jetstream.canUpdatePassword">
+        <div v-if="page.props.jetstream.canUpdatePassword">
           <UpdatePasswordForm class="mt-10 sm:mt-0" />
 
           <SectionBorder />
         </div>
 
-        <div v-if="$page.props.jetstream.canManageTwoFactorAuthentication">
+        <div v-if="page.props.jetstream.canManageTwoFactorAuthentication">
           <TwoFactorAuthenticationForm
             class="mt-10 sm:mt-0"
             :requires-confirmation="confirmsTwoFactorAuthentication"
@@ -57,7 +60,7 @@ withDefaults(
           :sessions="sessions"
         />
 
-        <template v-if="$page.props.jetstream.hasAccountDeletionFeatures">
+        <template v-if="page.props.jetstream.hasAccountDeletionFeatures">
           <SectionBorder />
 
           <DeleteUserForm class="mt-10 sm:mt-0" />
