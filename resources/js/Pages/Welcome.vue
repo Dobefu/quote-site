@@ -1,4 +1,5 @@
 <script setup>
+import AppLayout from "@/Layouts/AppLayout.vue"
 import { Head } from "@inertiajs/vue3"
 
 defineProps({
@@ -14,5 +15,5 @@ defineProps({
 <template>
   <Head title="Home" />
 
-  HOME
+  <AppLayout>HOME</AppLayout>
 </template>
