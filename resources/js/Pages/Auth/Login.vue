@@ -1,23 +1,25 @@
 <script setup lang="ts">
-import AuthenticationCard from "@/Components/AuthenticationCard.vue"
-import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue"
-import Checkbox from "@/Components/Checkbox.vue"
-import InputError from "@/Components/InputError.vue"
-import InputLabel from "@/Components/InputLabel.vue"
-import PrimaryButton from "@/Components/PrimaryButton.vue"
-import TextInput from "@/Components/TextInput.vue"
+import BaseLayout from "@/Layouts/BaseLayout.vue"
+import { useLocale } from "@/composables/useLocale"
 import { Head, Link, useForm } from "@inertiajs/vue3"
+import {
+  Button,
+  Card,
+  Checkbox,
+  Container,
+  Heading,
+  Input,
+  InputError,
+  InputGroup,
+  Label,
+} from "@local/ui"
 
-withDefaults(
-  defineProps<{
-    canResetPassword: boolean
-    status: string
-  }>(),
-  {
-    canResetPassword: false,
-    status: "",
-  },
-)
+defineProps<{
+  canResetPassword?: boolean
+  status?: string
+}>()
+
+const { locale, t } = useLocale()
 
 const form = useForm({
   email: "",
@@ -25,102 +27,106 @@ const form = useForm({
   remember: false,
 })
 
-const submit = () => {
-  form
-    .transform((data) => ({
-      ...data,
-      remember: form.remember ? "on" : "",
-    }))
-    .post(route("login"), {
-      onFinish: () => form.reset("password"),
-    })
+function submit() {
+  form.post(route("login", { lang: locale }), {
+    onFinish: () => {
+      form.reset("password")
+    },
+  })
 }
 </script>
 
 <template>
-  <Head title="Log in" />
+  <BaseLayout>
+    <Head>
+      <title>{{ t("auth.login.meta.title") }}</title>
+      <meta
+        :content="t('auth.login.meta.description').value"
+        name="description"
+      />
+    </Head>
 
-  <AuthenticationCard>
-    <template #logo>
-      <AuthenticationCardLogo />
-    </template>
-
-    <div
-      v-if="status"
-      class="mb-4 text-sm font-medium text-green-600 dark:text-green-400"
+    <Container
+      class="content-center"
+      type="narrow"
     >
-      {{ status }}
-    </div>
+      <form @submit.prevent="submit">
+        <Card>
+          <Heading
+            class="py-4 text-center"
+            type="h2"
+          >
+            {{ t("auth.login.title") }}
+          </Heading>
 
-    <form @submit.prevent="submit">
-      <div>
-        <InputLabel
-          for="email"
-          value="Email"
-        />
-        <TextInput
-          id="email"
-          v-model="form.email"
-          autocomplete="username"
-          autofocus
-          class="mt-1 block w-full"
-          required
-          type="email"
-        />
-        <InputError
-          class="mt-2"
-          :message="form.errors.email ?? ''"
-        />
-      </div>
+          <div v-if="status">
+            {{ status }}
+          </div>
 
-      <div class="mt-4">
-        <InputLabel
-          for="password"
-          value="Password"
-        />
-        <TextInput
-          id="password"
-          v-model="form.password"
-          autocomplete="current-password"
-          class="mt-1 block w-full"
-          required
-          type="password"
-        />
-        <InputError
-          class="mt-2"
-          :message="form.errors.password ?? ''"
-        />
-      </div>
+          <InputGroup>
+            <Label for="email">{{ t("auth.login.field.email") }}</Label>
 
-      <div class="mt-4 block">
-        <label class="flex items-center">
+            <Input
+              id="email"
+              v-model="form.email"
+              autocomplete="email"
+              autofocus
+              name="email"
+              :placeholder="t('auth.login.field.email.placeholder').value"
+              required
+              type="email"
+            />
+
+            <InputError :message="form.errors.email" />
+          </InputGroup>
+
+          <InputGroup>
+            <Label for="password">{{ t("auth.login.field.password") }}</Label>
+
+            <Input
+              id="password"
+              v-model="form.password"
+              autocomplete="current-password"
+              name="password"
+              :placeholder="t('auth.login.field.password.placeholder').value"
+              required
+              type="password"
+            />
+
+            <InputError :message="form.errors.password" />
+          </InputGroup>
+
           <Checkbox
-            v-model:checked="form.remember"
+            v-model="form.remember"
+            :label="t('auth.login.field.remember').value"
             name="remember"
           />
-          <span class="ms-2 text-sm text-gray-600 dark:text-gray-400"
-            >Remember me</span
-          >
-        </label>
-      </div>
 
-      <div class="mt-4 flex items-center justify-end">
-        <Link
-          v-if="canResetPassword"
-          class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
-          :href="route('password.request')"
-        >
-          Forgot your password?
-        </Link>
+          <template #footer>
+            <div
+              class="flex flex-row-reverse items-center justify-between gap-6 max-sm:flex-col max-sm:items-stretch"
+            >
+              <Button
+                icon="mdi:login"
+                :loading="form.processing"
+                type="submit"
+                variant="primary"
+              >
+                {{ t("auth.login.submit") }}
+              </Button>
 
-        <PrimaryButton
-          class="ms-4"
-          :class="{ 'opacity-25': form.processing }"
-          :disabled="form.processing"
-        >
-          Log in
-        </PrimaryButton>
-      </div>
-    </form>
-  </AuthenticationCard>
+              <Link
+                v-if="canResetPassword"
+                as="button"
+                class="p-2 text-center"
+                :href="route('password.request', { lang: locale })"
+              >
+                {{ t("auth.login.forgot-pass") }}
+              </Link>
+            </div>
+          </template>
+        </Card>
+      </form>
+    </Container>
+  </BaseLayout>
 </template>

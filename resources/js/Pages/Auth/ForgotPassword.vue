@@ -1,80 +1,95 @@
 <script setup lang="ts">
-import AuthenticationCard from "@/Components/AuthenticationCard.vue"
-import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue"
-import InputError from "@/Components/InputError.vue"
-import InputLabel from "@/Components/InputLabel.vue"
-import PrimaryButton from "@/Components/PrimaryButton.vue"
-import TextInput from "@/Components/TextInput.vue"
+import BaseLayout from "@/Layouts/BaseLayout.vue"
+import { useLocale } from "@/composables/useLocale"
 import { Head, useForm } from "@inertiajs/vue3"
+import {
+  Button,
+  Card,
+  Container,
+  Heading,
+  Input,
+  InputError,
+  InputGroup,
+  Label,
+} from "@local/ui"
 
-withDefaults(
-  defineProps<{
-    status: string
-  }>(),
-  {
-    status: "",
-  },
-)
+defineProps<{
+  status?: string
+}>()
+
+const { locale, t } = useLocale()
 
 const form = useForm({
   email: "",
 })
 
-const submit = () => {
-  form.post(route("password.email"))
+function submit() {
+  form.post(route("password.email", { lang: locale }))
 }
 </script>
 
 <template>
-  <Head title="Forgot Password" />
+  <BaseLayout>
+    <Head>
+      <title>{{ t("auth.forgot-pass.meta.title") }}</title>
+      <meta
+        :content="t('auth.forgot-pass.meta.description').value"
+        name="description"
+      />
+    </Head>
 
-  <AuthenticationCard>
-    <template #logo>
-      <AuthenticationCardLogo />
-    </template>
-
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-      Forgot your password? No problem. Just let us know your email address and
-      we will email you a password reset link that will allow you to choose a
-      new one.
-    </div>
-
-    <div
-      v-if="status"
-      class="mb-4 text-sm font-medium text-green-600 dark:text-green-400"
+    <Container
+      class="content-center"
+      type="narrow"
     >
-      {{ status }}
-    </div>
+      <form @submit.prevent="submit">
+        <Card>
+          <Heading
+            class="py-4 text-center"
+            type="h2"
+          >
+            {{ t("auth.forgot-pass.title") }}
+          </Heading>
 
-    <form @submit.prevent="submit">
-      <div>
-        <InputLabel
-          for="email"
-          value="Email"
-        />
-        <TextInput
-          id="email"
-          v-model="form.email"
-          autocomplete="username"
-          autofocus
-          class="mt-1 block w-full"
-          required
-          type="email"
-        />
-        <InputError
-          class="mt-2"
-          :message="form.errors.email ?? ''"
-        />
-      </div>
+          <div class="max-sm:text-justify">
+            {{ t("auth.forgot-pass.intro") }}
+          </div>
 
-      <div class="mt-4 flex items-center justify-end">
-        <PrimaryButton
-          :class="{ 'opacity-25': form.processing }"
-          :disabled="form.processing"
-        >
-          Email Password Reset Link
-        </PrimaryButton>
-      </div>
-    </form>
-  </AuthenticationCard>
+          <div v-if="status">
+            {{ status }}
+          </div>
+
+          <InputGroup>
+            <Label for="email">
+              {{ t("auth.forgot-pass.field.email") }}
+            </Label>
+
+            <Input
+              id="email"
+              v-model="form.email"
+              autocomplete="email"
+              autofocus
+              name="email"
+              :placeholder="t('auth.forgot-pass.field.email.placeholder').value"
+              required
+              type="email"
+            />
+
+            <InputError :message="form.errors.email" />
+          </InputGroup>
+
+          <template #footer>
+            <Button
+              class="ms-auto flex max-sm:w-full"
+              icon="mdi:key"
+              :loading="form.processing"
+              variant="primary"
+            >
+              {{ t("auth.forgot-pass.submit") }}
+            </Button>
+          </template>
+        </Card>
+      </form>
+    </Container>
+  </BaseLayout>
 </template>

@@ -1,105 +1,134 @@
-<script setup>
-import ActionSection from "@/Components/ActionSection.vue"
-import DangerButton from "@/Components/DangerButton.vue"
-import DialogModal from "@/Components/DialogModal.vue"
-import InputError from "@/Components/InputError.vue"
-import SecondaryButton from "@/Components/SecondaryButton.vue"
-import TextInput from "@/Components/TextInput.vue"
+<script setup lang="ts">
+import { useLocale } from "@/composables/useLocale"
 import { useForm } from "@inertiajs/vue3"
-import { ref } from "vue"
+import {
+  Button,
+  Card,
+  Heading,
+  Input,
+  InputError,
+  InputGroup,
+  Label,
+  Modal,
+} from "@local/ui"
+import { nextTick, ref } from "vue"
 
-const confirmingUserDeletion = ref(false)
-const passwordInput = ref(null)
+const { locale, t } = useLocale()
+
+const modalRef = ref<typeof Modal | null>(null)
+const passwordInput = ref<HTMLInputElement | null>(null)
 
 const form = useForm({
   password: "",
 })
 
-const confirmUserDeletion = () => {
-  confirmingUserDeletion.value = true
+function confirmUserDeletion() {
+  modalRef.value?.open()
 
-  setTimeout(() => passwordInput.value.focus(), 250)
+  nextTick(() => passwordInput.value?.focus())
 }
 
-const deleteUser = () => {
-  form.delete(route("current-user.destroy"), {
+function deleteUser() {
+  form.delete(route("profile.destroy", { lang: locale }), {
     preserveScroll: true,
     onSuccess: () => closeModal(),
-    onError: () => passwordInput.value.focus(),
-    onFinish: () => form.reset(),
+    onError: () => passwordInput.value?.focus(),
+    onFinish: () => {
+      form.reset()
+    },
   })
 }
 
-const closeModal = () => {
-  confirmingUserDeletion.value = false
-
+function closeModal() {
+  modalRef.value?.close()
   form.reset()
 }
 </script>
 
 <template>
-  <ActionSection>
-    <template #title> Delete Account </template>
+  <Card>
+    <Heading
+      class="py-4 text-center"
+      type="h2"
+    >
+      {{ t("profile.delete.title") }}
+    </Heading>
 
-    <template #description> Permanently delete your account. </template>
+    <p>
+      {{ t("profile.delete.intro") }}
+    </p>
 
-    <template #content>
-      <div class="max-w-xl text-sm text-gray-600 dark:text-gray-400">
-        Once your account is deleted, all of its resources and data will be
-        permanently deleted. Before deleting your account, please download any
-        data or information that you wish to retain.
-      </div>
-
-      <div class="mt-5">
-        <DangerButton @click="confirmUserDeletion">
-          Delete Account
-        </DangerButton>
-      </div>
-
-      <!-- Delete Account Confirmation Modal -->
-      <DialogModal
-        :show="confirmingUserDeletion"
-        @close="closeModal"
+    <template #footer>
+      <Button
+        class="me-auto"
+        icon="mdi:bin-outline"
+        variant="danger"
+        @click="confirmUserDeletion"
       >
-        <template #title> Delete Account </template>
+        {{ t("profile.delete.modal.button") }}
+      </Button>
+    </template>
 
-        <template #content>
-          Are you sure you want to delete your account? Once your account is
-          deleted, all of its resources and data will be permanently deleted.
-          Please enter your password to confirm you would like to permanently
-          delete your account.
+    <Modal
+      ref="modalRef"
+      @on-close="closeModal"
+    >
+      <template #title>
+        <Heading type="h4">
+          {{ t("profile.delete.modal.heading") }}
+        </Heading>
+      </template>
 
-          <div class="mt-4">
-            <TextInput
-              ref="passwordInput"
-              v-model="form.password"
-              autocomplete="current-password"
-              class="mt-1 block w-3/4"
-              placeholder="Password"
-              type="password"
-              @keyup.enter="deleteUser"
-            />
+      <div class="flex flex-col gap-4">
+        <Heading type="h2">
+          {{ t("profile.delete.modal.title") }}
+        </Heading>
 
-            <InputError
-              class="mt-2"
-              :message="form.errors.password"
-            />
-          </div>
-        </template>
+        <p>
+          {{ t("profile.delete.modal.intro") }}
+        </p>
 
-        <template #footer>
-          <SecondaryButton @click="closeModal"> Cancel </SecondaryButton>
+        <InputGroup>
+          <Label
+            for="password"
+            required
+          >
+            {{ t("profile.delete.modal.field.password") }}
+          </Label>
 
-          <DangerButton
-            class="ms-3"
-            :class="{ 'opacity-25': form.processing }"
-            :disabled="form.processing"
+          <Input
+            id="password"
+            ref="passwordInput"
+            v-model="form.password"
+            name="password"
+            :placeholder="
+              t('profile.delete.modal.field.password.placeholder').value
+            "
+            required
+            type="password"
+            @keyup.enter="deleteUser"
+          />
+
+          <InputError :message="form.errors.password" />
+        </InputGroup>
+      </div>
+
+      <template #actions>
+        <div class="flex items-center justify-between">
+          <Button @click="closeModal">
+            {{ t("profile.delete.modal.cancel") }}
+          </Button>
+
+          <Button
+            icon="mdi:bin-outline"
+            :loading="form.processing"
+            variant="danger"
             @click="deleteUser"
           >
-            Delete Account
-          </DangerButton>
-        </template>
-      </DialogModal>
-    </template>
-  </ActionSection>
+            {{ t("profile.delete.modal.submit") }}
+          </Button>
+        </div>
+      </template>
+    </Modal>
+  </Card>
 </template>

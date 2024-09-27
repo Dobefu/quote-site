@@ -1,12 +1,10 @@
-import type { Config } from "../../vendor/tightenco/ziggy"
+import type { Config } from "ziggy-js"
 
 export interface User {
   id: number
   name: string
   email: string
   email_verified_at: string
-  profile_photo_url?: string
-  profile_photo_path?: string
 }
 
 export type PageProps<

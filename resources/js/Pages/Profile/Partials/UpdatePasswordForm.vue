@@ -1,15 +1,24 @@
-<script setup>
-import ActionMessage from "@/Components/ActionMessage.vue"
-import FormSection from "@/Components/FormSection.vue"
-import InputError from "@/Components/InputError.vue"
-import InputLabel from "@/Components/InputLabel.vue"
-import PrimaryButton from "@/Components/PrimaryButton.vue"
-import TextInput from "@/Components/TextInput.vue"
+<script setup lang="ts">
+import { useLocale } from "@/composables/useLocale"
 import { useForm } from "@inertiajs/vue3"
+import {
+  Button,
+  Card,
+  Heading,
+  Input,
+  InputError,
+  InputGroup,
+  Label,
+  PasswordStrength,
+  useToast,
+} from "@local/ui"
 import { ref } from "vue"
 
-const passwordInput = ref(null)
-const currentPasswordInput = ref(null)
+const { locale, t } = useLocale()
+const toastStore = useToast()
+
+const passwordInput = ref<HTMLInputElement | null>(null)
+const currentPasswordInput = ref<HTMLInputElement | null>(null)
 
 const form = useForm({
   current_password: "",
@@ -17,20 +26,22 @@ const form = useForm({
   password_confirmation: "",
 })
 
-const updatePassword = () => {
-  form.put(route("user-password.update"), {
-    errorBag: "updatePassword",
+function updatePassword() {
+  form.put(route("password.update", { lang: locale }), {
     preserveScroll: true,
-    onSuccess: () => form.reset(),
+    onSuccess: () => {
+      form.reset()
+      toastStore.success(t("profile.update-pass.submit.success").value)
+    },
     onError: () => {
       if (form.errors.password) {
         form.reset("password", "password_confirmation")
-        passwordInput.value.focus()
+        passwordInput.value?.focus()
       }
 
       if (form.errors.current_password) {
         form.reset("current_password")
-        currentPasswordInput.value.focus()
+        currentPasswordInput.value?.focus()
       }
     },
   })
@@ -38,85 +49,94 @@ const updatePassword = () => {
 </script>
 
 <template>
-  <FormSection @submitted="updatePassword">
-    <template #title> Update Password </template>
+  <form @submit.prevent="updatePassword">
+    <Card>
+      <Heading
+        class="py-4 text-center"
+        type="h2"
+      >
+        {{ t("profile.update-pass.title") }}
+      </Heading>
 
-    <template #description>
-      Ensure your account is using a long, random password to stay secure.
-    </template>
+      <p>
+        {{ t("profile.update-pass.intro") }}
+      </p>
 
-    <template #form>
-      <div class="col-span-6 sm:col-span-4">
-        <InputLabel
-          for="current_password"
-          value="Current Password"
-        />
-        <TextInput
+      <InputGroup>
+        <Label for="current_password">
+          {{ t("profile.update-pass.field.pass-current") }}
+        </Label>
+
+        <Input
           id="current_password"
           ref="currentPasswordInput"
           v-model="form.current_password"
           autocomplete="current-password"
-          class="mt-1 block w-full"
+          name="password"
+          :placeholder="
+            t('profile.update-pass.field.pass-current.placeholder').value
+          "
           type="password"
         />
-        <InputError
-          class="mt-2"
-          :message="form.errors.current_password"
-        />
-      </div>
 
-      <div class="col-span-6 sm:col-span-4">
-        <InputLabel
-          for="password"
-          value="New Password"
-        />
-        <TextInput
+        <InputError :message="form.errors.current_password" />
+      </InputGroup>
+
+      <InputGroup>
+        <Label for="password">
+          {{ t("profile.update-pass.field.pass-new") }}
+        </Label>
+
+        <Input
           id="password"
           ref="passwordInput"
           v-model="form.password"
           autocomplete="new-password"
-          class="mt-1 block w-full"
+          name="new-password"
+          :placeholder="
+            t('profile.update-pass.field.pass-new.placeholder').value
+          "
           type="password"
         />
-        <InputError
-          class="mt-2"
-          :message="form.errors.password"
-        />
-      </div>
 
-      <div class="col-span-6 sm:col-span-4">
-        <InputLabel
-          for="password_confirmation"
-          value="Confirm Password"
+        <PasswordStrength
+          class="-mb-5"
+          :password="form.password"
         />
-        <TextInput
+
+        <InputError :message="form.errors.password" />
+      </InputGroup>
+
+      <InputGroup>
+        <Label for="password_confirmation">
+          {{ t("profile.update-pass.field.pass-confirm") }}
+        </Label>
+
+        <Input
           id="password_confirmation"
           v-model="form.password_confirmation"
-          autocomplete="new-password"
-          class="mt-1 block w-full"
+          autocomplete="password-confirm"
+          name="password-confirm"
+          :placeholder="
+            t('profile.update-pass.field.pass-confirm.placeholder').value
+          "
           type="password"
         />
-        <InputError
-          class="mt-2"
-          :message="form.errors.password_confirmation"
-        />
-      </div>
-    </template>
 
-    <template #actions>
-      <ActionMessage
-        class="me-3"
-        :on="form.recentlySuccessful"
-      >
-        Saved.
-      </ActionMessage>
+        <InputError :message="form.errors.password_confirmation" />
+      </InputGroup>
 
-      <PrimaryButton
-        :class="{ 'opacity-25': form.processing }"
-        :disabled="form.processing"
-      >
-        Save
-      </PrimaryButton>
-    </template>
-  </FormSection>
+      <template #footer>
+        <div>
+          <Button
+            icon="mdi:content-save-outline"
+            :loading="form.processing"
+            variant="primary"
+          >
+            {{ t("profile.update-pass.submit") }}
+          </Button>
+        </div>
+      </template>
+    </Card>
+  </form>
 </template>

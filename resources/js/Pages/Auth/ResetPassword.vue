@@ -1,22 +1,24 @@
 <script setup lang="ts">
-import AuthenticationCard from "@/Components/AuthenticationCard.vue"
-import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue"
-import InputError from "@/Components/InputError.vue"
-import InputLabel from "@/Components/InputLabel.vue"
-import PrimaryButton from "@/Components/PrimaryButton.vue"
-import TextInput from "@/Components/TextInput.vue"
+import BaseLayout from "@/Layouts/BaseLayout.vue"
+import { useLocale } from "@/composables/useLocale"
 import { Head, useForm } from "@inertiajs/vue3"
+import {
+  Button,
+  Card,
+  Container,
+  Heading,
+  Input,
+  InputError,
+  InputGroup,
+  Label,
+} from "@local/ui"
 
-const props = withDefaults(
-  defineProps<{
-    email: string
-    token: string
-  }>(),
-  {
-    email: "",
-    token: "",
-  },
-)
+const props = defineProps<{
+  email: string
+  token: string
+}>()
+
+const { locale, t } = useLocale()
 
 const form = useForm({
   token: props.token,
@@ -25,88 +27,115 @@ const form = useForm({
   password_confirmation: "",
 })
 
-const submit = () => {
-  form.post(route("password.update"), {
-    onFinish: () => form.reset("password", "password_confirmation"),
+function submit() {
+  form.post(route("password.store", { lang: locale }), {
+    onFinish: () => {
+      form.reset("password", "password_confirmation")
+    },
   })
 }
 </script>
 
 <template>
-  <Head title="Reset Password" />
+  <BaseLayout>
+    <Head>
+      <title>
+        {{ t("auth.reset-pass.meta.title") }}
+      </title>
+      <meta
+        :content="t('auth.reset-pass.meta.title').value"
+        name="description"
+      />
+    </Head>
 
-  <AuthenticationCard>
-    <template #logo>
-      <AuthenticationCardLogo />
-    </template>
+    <Container
+      class="content-center"
+      type="narrow"
+    >
+      <form @submit.prevent="submit">
+        <Card>
+          <Heading
+            class="py-4 text-center"
+            type="h2"
+          >
+            {{ t("auth.reset-pass.title") }}
+          </Heading>
 
-    <form @submit.prevent="submit">
-      <div>
-        <InputLabel
-          for="email"
-          value="Email"
-        />
-        <TextInput
-          id="email"
-          v-model="form.email"
-          autocomplete="username"
-          autofocus
-          class="mt-1 block w-full"
-          required
-          type="email"
-        />
-        <InputError
-          class="mt-2"
-          :message="form.errors.email ?? ''"
-        />
-      </div>
+          <InputGroup>
+            <Label for="email">
+              {{ t("auth.reset-pass.field.email") }}
+            </Label>
 
-      <div class="mt-4">
-        <InputLabel
-          for="password"
-          value="Password"
-        />
-        <TextInput
-          id="password"
-          v-model="form.password"
-          autocomplete="new-password"
-          class="mt-1 block w-full"
-          required
-          type="password"
-        />
-        <InputError
-          class="mt-2"
-          :message="form.errors.password ?? ''"
-        />
-      </div>
+            <Input
+              id="email"
+              v-model="form.email"
+              autocomplete="email"
+              autofocus
+              name="email"
+              :placeholder="t('auth.reset-pass.field.email.placeholder').value"
+              required
+              type="email"
+            />
 
-      <div class="mt-4">
-        <InputLabel
-          for="password_confirmation"
-          value="Confirm Password"
-        />
-        <TextInput
-          id="password_confirmation"
-          v-model="form.password_confirmation"
-          autocomplete="new-password"
-          class="mt-1 block w-full"
-          required
-          type="password"
-        />
-        <InputError
-          class="mt-2"
-          :message="form.errors.password_confirmation ?? ''"
-        />
-      </div>
+            <InputError :message="form.errors.email" />
+          </InputGroup>
 
-      <div class="mt-4 flex items-center justify-end">
-        <PrimaryButton
-          :class="{ 'opacity-25': form.processing }"
-          :disabled="form.processing"
-        >
-          Reset Password
-        </PrimaryButton>
-      </div>
-    </form>
-  </AuthenticationCard>
+          <InputGroup>
+            <Label for="password">
+              {{ t("auth.reset-pass.field.password") }}
+            </Label>
+
+            <Input
+              id="password"
+              v-model="form.password"
+              autocomplete="new-password"
+              name="password"
+              :placeholder="
+                t('auth.reset-pass.field.password.placeholder').value
+              "
+              required
+              type="password"
+            />
+
+            <InputError :message="form.errors.password" />
+          </InputGroup>
+
+          <InputGroup>
+            <Label for="password_confirmation">
+              {{ t("auth.reset-pass.field.password-confirm") }}
+            </Label>
+
+            <Input
+              id="password_confirmation"
+              v-model="form.password_confirmation"
+              autocomplete="new-password"
+              name="new-password"
+              :placeholder="
+                t('auth.reset-pass.field.password-confirm.placeholder').value
+              "
+              required
+              type="password"
+            />
+
+            <InputError :message="form.errors.password_confirmation" />
+          </InputGroup>
+
+          <template #footer>
+            <div
+              class="flex flex-row-reverse items-center justify-between gap-6 max-sm:flex-col max-sm:items-stretch"
+            >
+              <Button
+                icon="mdi:form-textbox-password"
+                :loading="form.processing"
+                type="submit"
+                variant="primary"
+              >
+                {{ t("auth.reset-pass.submit") }}
+              </Button>
+            </div>
+          </template>
+        </Card>
+      </form>
+    </Container>
+  </BaseLayout>
 </template>

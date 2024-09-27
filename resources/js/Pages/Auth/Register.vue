@@ -1,167 +1,164 @@
-<script setup>
-import AuthenticationCard from "@/Components/AuthenticationCard.vue"
-import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue"
-import Checkbox from "@/Components/Checkbox.vue"
-import InputError from "@/Components/InputError.vue"
-import InputLabel from "@/Components/InputLabel.vue"
-import PrimaryButton from "@/Components/PrimaryButton.vue"
-import TextInput from "@/Components/TextInput.vue"
+<script setup lang="ts">
+import BaseLayout from "@/Layouts/BaseLayout.vue"
+import { useLocale } from "@/composables/useLocale"
 import { Head, Link, useForm } from "@inertiajs/vue3"
+import {
+  Button,
+  Card,
+  Container,
+  Heading,
+  Input,
+  InputError,
+  InputGroup,
+  Label,
+  PasswordStrength,
+} from "@local/ui"
 
 const form = useForm({
   name: "",
   email: "",
   password: "",
   password_confirmation: "",
-  terms: false,
 })
 
-const submit = () => {
-  form.post(route("register"), {
-    onFinish: () => form.reset("password", "password_confirmation"),
-  })
+const { locale, t } = useLocale()
+
+function submit() {
+  form.post(
+    route("register", {
+      lang: locale,
+    }),
+    {
+      onFinish: () => {
+        form.reset("password", "password_confirmation")
+      },
+    },
+  )
 }
 </script>
 
 <template>
-  <Head title="Register" />
+  <BaseLayout>
+    <Head>
+      <title>{{ t("auth.register.meta.title") }}</title>
+      <meta
+        :content="t('auth.register.meta.description').value"
+        name="description"
+      />
+    </Head>
 
-  <AuthenticationCard>
-    <template #logo>
-      <AuthenticationCardLogo />
-    </template>
+    <Container
+      class="content-center"
+      type="narrow"
+    >
+      <form @submit.prevent="submit">
+        <Card>
+          <Heading
+            class="py-4 text-center"
+            type="h2"
+          >
+            {{ t("auth.register.title") }}
+          </Heading>
 
-    <form @submit.prevent="submit">
-      <div>
-        <InputLabel
-          for="name"
-          value="Name"
-        />
-        <TextInput
-          id="name"
-          v-model="form.name"
-          autocomplete="name"
-          autofocus
-          class="mt-1 block w-full"
-          required
-          type="text"
-        />
-        <InputError
-          class="mt-2"
-          :message="form.errors.name"
-        />
-      </div>
+          <InputGroup>
+            <Label for="name">{{ t("auth.register.field.name") }}</Label>
 
-      <div class="mt-4">
-        <InputLabel
-          for="email"
-          value="Email"
-        />
-        <TextInput
-          id="email"
-          v-model="form.email"
-          autocomplete="username"
-          class="mt-1 block w-full"
-          required
-          type="email"
-        />
-        <InputError
-          class="mt-2"
-          :message="form.errors.email"
-        />
-      </div>
-
-      <div class="mt-4">
-        <InputLabel
-          for="password"
-          value="Password"
-        />
-        <TextInput
-          id="password"
-          v-model="form.password"
-          autocomplete="new-password"
-          class="mt-1 block w-full"
-          required
-          type="password"
-        />
-        <InputError
-          class="mt-2"
-          :message="form.errors.password"
-        />
-      </div>
-
-      <div class="mt-4">
-        <InputLabel
-          for="password_confirmation"
-          value="Confirm Password"
-        />
-        <TextInput
-          id="password_confirmation"
-          v-model="form.password_confirmation"
-          autocomplete="new-password"
-          class="mt-1 block w-full"
-          required
-          type="password"
-        />
-        <InputError
-          class="mt-2"
-          :message="form.errors.password_confirmation"
-        />
-      </div>
-
-      <div
-        v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature"
-        class="mt-4"
-      >
-        <InputLabel for="terms">
-          <div class="flex items-center">
-            <Checkbox
-              id="terms"
-              v-model:checked="form.terms"
-              name="terms"
+            <Input
+              id="name"
+              v-model="form.name"
+              autocomplete="name"
+              autofocus
+              name="name"
+              :placeholder="t('auth.register.field.name.placeholder').value"
               required
+              type="text"
             />
 
-            <div class="ms-2">
-              I agree to the
-              <a
-                class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
-                :href="route('terms.show')"
-                target="_blank"
-                >Terms of Service</a
+            <InputError :message="form.errors.name" />
+          </InputGroup>
+
+          <InputGroup>
+            <Label for="email">{{ t("auth.register.field.email") }}</Label>
+
+            <Input
+              id="email"
+              v-model="form.email"
+              autocomplete="email"
+              name="email"
+              :placeholder="t('auth.register.field.email.placeholder').value"
+              required
+              type="email"
+            />
+
+            <InputError :message="form.errors.email" />
+          </InputGroup>
+
+          <InputGroup>
+            <Label for="password">{{
+              t("auth.register.field.password")
+            }}</Label>
+
+            <Input
+              id="password"
+              v-model="form.password"
+              autocomplete="new-password"
+              name="password"
+              :placeholder="t('auth.register.field.password.placeholder').value"
+              required
+              type="password"
+            />
+
+            <PasswordStrength
+              class="-mb-5"
+              :password="form.password"
+            />
+
+            <InputError :message="form.errors.password" />
+          </InputGroup>
+
+          <InputGroup>
+            <Label for="password_confirmation">{{
+              t("auth.register.field.password-confirm")
+            }}</Label>
+
+            <Input
+              id="password_confirmation"
+              v-model="form.password_confirmation"
+              autocomplete="new-password"
+              name="new-password"
+              :placeholder="
+                t('auth.register.field.password-confirm.placeholder').value
+              "
+              required
+              type="password"
+            />
+
+            <InputError :message="form.errors.password_confirmation" />
+          </InputGroup>
+
+          <template #footer>
+            <div
+              class="flex flex-row-reverse items-center justify-between gap-6 max-sm:flex-col max-sm:items-stretch"
+            >
+              <Button
+                icon="mdi:register"
+                :loading="form.processing"
+                variant="primary"
               >
-              and
-              <a
-                class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
-                :href="route('policy.show')"
-                target="_blank"
-                >Privacy Policy</a
+                {{ t("auth.register.submit") }}
+              </Button>
+
+              <Link
+                as="button"
+                class="p-2 text-center"
+                :href="route('login', { lang: locale })"
               >
+                {{ t("auth.register.login") }}
+              </Link>
             </div>
-          </div>
-          <InputError
-            class="mt-2"
-            :message="form.errors.terms"
-          />
-        </InputLabel>
-      </div>
-
-      <div class="mt-4 flex items-center justify-end">
-        <Link
-          class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
-          :href="route('login')"
-        >
-          Already registered?
-        </Link>
-
-        <PrimaryButton
-          class="ms-4"
-          :class="{ 'opacity-25': form.processing }"
-          :disabled="form.processing"
-        >
-          Register
-        </PrimaryButton>
-      </div>
-    </form>
-  </AuthenticationCard>
+          </template>
+        </Card>
+      </form>
+    </Container>
+  </BaseLayout>
 </template>

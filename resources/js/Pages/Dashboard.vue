@@ -1,26 +1,27 @@
-<script setup>
-import Welcome from "@/Components/Welcome.vue"
-import AppLayout from "@/Layouts/AppLayout.vue"
+<script setup lang="ts">
+import { useLocale } from "@/composables/useLocale"
+import BaseLayout from "@/Layouts/BaseLayout.vue"
+import { Head, usePage } from "@inertiajs/vue3"
+import { Container, Heading } from "@local/ui"
+
+const page = usePage()
+const { t } = useLocale()
 </script>
 
 <template>
-  <AppLayout title="Dashboard">
-    <template #header>
-      <h2
-        class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200"
-      >
-        Dashboard
-      </h2>
-    </template>
+  <Head>
+    <title>{{ t("profile.meta.title") }}</title>
+    <meta
+      :content="t('profile.meta.description').value"
+      name="description"
+    />
+  </Head>
 
-    <div class="py-12">
-      <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div
-          class="overflow-hidden bg-white shadow-xl sm:rounded-lg dark:bg-gray-800"
-        >
-          <Welcome />
-        </div>
-      </div>
-    </div>
-  </AppLayout>
+  <BaseLayout>
+    <Container class="flex flex-col gap-4">
+      <Heading type="h2">
+        {{ t("profile.title", { name: page.props.auth.user.name }) }}
+      </Heading>
+    </Container>
+  </BaseLayout>
 </template>

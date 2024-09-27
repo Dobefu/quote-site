@@ -3,7 +3,9 @@ import "./bootstrap"
 
 import { createInertiaApp } from "@inertiajs/vue3"
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers"
-import { App, createApp, DefineComponent, h } from "vue"
+import { i18nVue } from "laravel-vue-i18n"
+import type { DefineComponent } from "vue"
+import { createApp, h } from "vue"
 import { ZiggyVue } from "../../vendor/tightenco/ziggy"
 
 const appName = import.meta.env.VITE_APP_NAME || "Quote Site"
@@ -16,10 +18,19 @@ createInertiaApp({
       import.meta.glob<DefineComponent>("./Pages/**/*.vue"),
     ),
   setup({ el, App, props, plugin }) {
-    return createApp({ render: () => h(App, props) })
+    createApp({ render: () => h(App, props) })
       .use(plugin)
       .use(ZiggyVue)
-      .mount(el) as unknown as App
+      .use(i18nVue, {
+        resolve: (lang: string) => {
+          const langs = import.meta.glob<{ default: unknown }>(
+            "../../lang/*.json",
+            { eager: true },
+          )
+          return langs[`../../lang/${lang}.json`].default
+        },
+      })
+      .mount(el)
   },
   progress: {
     color: "#4B5563",

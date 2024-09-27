@@ -1,23 +1,19 @@
 <script setup lang="ts">
-import AuthenticationCard from "@/Components/AuthenticationCard.vue"
-import AuthenticationCardLogo from "@/Components/AuthenticationCardLogo.vue"
-import PrimaryButton from "@/Components/PrimaryButton.vue"
+import BaseLayout from "@/Layouts/BaseLayout.vue"
+import { useLocale } from "@/composables/useLocale"
 import { Head, Link, useForm } from "@inertiajs/vue3"
+import { Button, Card, Container } from "@local/ui"
 import { computed } from "vue"
 
-const props = withDefaults(
-  defineProps<{
-    status: string
-  }>(),
-  {
-    status: "",
-  },
-)
+const props = defineProps<{
+  status?: string
+}>()
 
+const { locale, t } = useLocale()
 const form = useForm({})
 
-const submit = () => {
-  form.post(route("verification.send"))
+function submit() {
+  form.post(route("verification.send", { lang: locale }))
 }
 
 const verificationLinkSent = computed(
@@ -26,54 +22,55 @@ const verificationLinkSent = computed(
 </script>
 
 <template>
-  <Head title="Email Verification" />
+  <BaseLayout>
+    <Head>
+      <title>
+        {{ t("auth.verify.meta.title") }}
+      </title>
+      <meta
+        :content="t('auth.verify.meta.description').value"
+        name="description"
+      />
+    </Head>
 
-  <AuthenticationCard>
-    <template #logo>
-      <AuthenticationCardLogo />
-    </template>
-
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-      Before continuing, could you verify your email address by clicking on the
-      link we just emailed to you? If you didn't receive the email, we will
-      gladly send you another.
-    </div>
-
-    <div
-      v-if="verificationLinkSent"
-      class="mb-4 text-sm font-medium text-green-600 dark:text-green-400"
+    <Container
+      class="content-center"
+      type="narrow"
     >
-      A new verification link has been sent to the email address you provided in
-      your profile settings.
-    </div>
+      <form @submit.prevent="submit">
+        <Card>
+          <div>
+            {{ t("auth.verify.intro") }}
+          </div>
 
-    <form @submit.prevent="submit">
-      <div class="mt-4 flex items-center justify-between">
-        <PrimaryButton
-          :class="{ 'opacity-25': form.processing }"
-          :disabled="form.processing"
-        >
-          Resend Verification Email
-        </PrimaryButton>
+          <div v-if="verificationLinkSent">
+            {{ t("auth.verify.success") }}
+          </div>
 
-        <div>
-          <Link
-            class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
-            :href="route('profile.show')"
-          >
-            Edit Profile</Link
-          >
+          <template #footer>
+            <div
+              class="flex flex-row-reverse items-center justify-between gap-6 max-sm:flex-col max-sm:items-stretch"
+            >
+              <Button
+                icon="mdi:envelope-open"
+                :loading="form.processing"
+                type="submit"
+                variant="primary"
+              >
+                {{ t("auth.verify.submit") }}
+              </Button>
 
-          <Link
-            as="button"
-            class="ms-2 rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
-            :href="route('logout')"
-            method="post"
-          >
-            Log Out
-          </Link>
-        </div>
-      </div>
-    </form>
-  </AuthenticationCard>
+              <Link
+                as="button"
+                class="p-2 text-center"
+                :href="route('logout', { lang: locale })"
+              >
+                {{ t("auth.verify.logout") }}
+              </Link>
+            </div>
+          </template>
+        </Card>
+      </form>
+    </Container>
+  </BaseLayout>
 </template>

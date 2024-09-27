@@ -1,16 +1,18 @@
 import eslint from "@eslint/js"
 import eslintConfigPrettier from "eslint-config-prettier"
-import pluginVue from "eslint-plugin-vue"
+import eslintPluginVue from "eslint-plugin-vue"
+import globals from "globals"
 import eslintTypescript from "typescript-eslint"
 
 export default [
   eslint.configs.recommended,
   ...eslintTypescript.configs.recommended,
-  ...pluginVue.configs["flat/recommended"],
+  ...eslintPluginVue.configs["flat/recommended"],
   eslintConfigPrettier,
   {
     languageOptions: {
       globals: {
+        ...globals.node,
         route: true,
       },
       parserOptions: {
@@ -22,9 +24,8 @@ export default [
     rules: {
       "no-alert": "warn",
       "no-console": "warn",
+      "vue/multi-word-component-names": "off",
       "vue/attributes-order": ["error", { alphabetical: true }],
-      "vue/html-self-closing": ["off"],
-      "vue/multi-word-component-names": ["off"],
     },
   },
   {

@@ -1,0 +1,18 @@
+@import url("https://rsms.me/inter/inter.css");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  @apply antialiased;
+}
+
+html.dark {
+  color-scheme: dark;
+}
+
+html .sb-show-main,
+html .sbdocs-preview {
+  @apply bg-gray-100 dark:bg-gray-950;
+}

@@ -1,250 +1,125 @@
 <script setup lang="ts">
-import ActionMessage from "@/Components/ActionMessage.vue"
-import FormSection from "@/Components/FormSection.vue"
-import InputError from "@/Components/InputError.vue"
-import InputLabel from "@/Components/InputLabel.vue"
-import PrimaryButton from "@/Components/PrimaryButton.vue"
-import SecondaryButton from "@/Components/SecondaryButton.vue"
-import TextInput from "@/Components/TextInput.vue"
-import { User } from "@/types"
-import { Link, router, useForm, usePage } from "@inertiajs/vue3"
-import { ref } from "vue"
+import { useLocale } from "@/composables/useLocale"
+import { Link, useForm, usePage } from "@inertiajs/vue3"
+import {
+  Button,
+  Card,
+  Heading,
+  Input,
+  InputError,
+  InputGroup,
+  Label,
+  useToast,
+} from "@local/ui"
 
-const props = defineProps({
-  user: {
-    type: Object as () => User,
-    required: true,
-  },
+defineProps<{
+  mustVerifyEmail?: boolean
+  status?: string
+}>()
+
+const { locale, t } = useLocale()
+const toastStore = useToast()
+
+const user = usePage().props.auth.user
+
+const form = useForm({
+  name: user.name,
+  email: user.email,
 })
 
-const page = usePage()
-
-const form = useForm<{
-  _method: string
-  name: string
-  email: string
-  photo: File | null
-}>({
-  _method: "PUT",
-  name: props.user.name,
-  email: props.user.email,
-  photo: null,
-})
-
-const verificationLinkSent = ref<boolean | null>(null)
-const photoPreview = ref<string | ArrayBuffer | null>(null)
-const photoInput = ref<HTMLInputElement | null>(null)
-
-const updateProfileInformation = () => {
-  if (photoInput.value) {
-    form.photo = photoInput.value.files ? photoInput.value.files[0] : null
-  }
-
-  form.post(route("user-profile-information.update"), {
-    errorBag: "updateProfileInformation",
-    preserveScroll: true,
-    onSuccess: () => clearPhotoFileInput(),
-  })
-}
-
-const sendEmailVerification = () => {
-  verificationLinkSent.value = true
-}
-
-const selectNewPhoto = () => {
-  photoInput.value?.click()
-}
-
-const updatePhotoPreview = () => {
-  if (!photoInput.value?.files) return
-
-  const photo = photoInput.value.files[0]
-
-  if (!photo) return
-
-  const reader = new FileReader()
-
-  reader.onload = (e) => {
-    photoPreview.value = e.target?.result ?? null
-  }
-
-  reader.readAsDataURL(photo)
-}
-
-const deletePhoto = () => {
-  router.delete(route("current-user-photo.destroy"), {
-    preserveScroll: true,
+const submit = () => {
+  form.patch(route("profile.update", { lang: locale }), {
     onSuccess: () => {
-      photoPreview.value = null
-      clearPhotoFileInput()
+      toastStore.success(t("profile.info.submit.success").value)
     },
   })
-}
-
-const clearPhotoFileInput = () => {
-  if (photoInput.value?.value) {
-    photoInput.value.value = ""
-  }
 }
 </script>
 
 <template>
-  <FormSection @submitted="updateProfileInformation">
-    <template #title> Profile Information </template>
-
-    <template #description>
-      Update your account's profile information and email address.
-    </template>
-
-    <template #form>
-      <!-- Profile Photo -->
-      <div
-        v-if="page.props.jetstream.managesProfilePhotos"
-        class="col-span-6 sm:col-span-4"
+  <form @submit.prevent="submit">
+    <Card>
+      <Heading
+        class="py-4 text-center"
+        type="h2"
       >
-        <!-- Profile Photo File Input -->
-        <input
-          id="photo"
-          ref="photoInput"
-          class="hidden"
-          type="file"
-          @change="updatePhotoPreview"
-        />
+        {{ t("profile.info.title") }}
+      </Heading>
 
-        <InputLabel
-          for="photo"
-          value="Photo"
-        />
+      <p>{{ t("profile.info.intro") }}</p>
 
-        <!-- Current Profile Photo -->
-        <div
-          v-show="!photoPreview"
-          class="mt-2"
-        >
-          <img
-            :alt="user.name"
-            class="h-20 w-20 rounded-full object-cover"
-            :src="user.profile_photo_url"
-          />
-        </div>
-
-        <!-- New Profile Photo Preview -->
-        <div
-          v-show="photoPreview"
-          class="mt-2"
-        >
-          <span
-            class="block h-20 w-20 rounded-full bg-cover bg-center bg-no-repeat"
-            :style="'background-image: url(\'' + photoPreview + '\');'"
-          />
-        </div>
-
-        <SecondaryButton
-          class="me-2 mt-2"
-          type="button"
-          @click.prevent="selectNewPhoto"
-        >
-          Select A New Photo
-        </SecondaryButton>
-
-        <SecondaryButton
-          v-if="user.profile_photo_path"
-          class="mt-2"
-          type="button"
-          @click.prevent="deletePhoto"
-        >
-          Remove Photo
-        </SecondaryButton>
-
-        <InputError
-          class="mt-2"
-          :message="form.errors.photo ?? ''"
-        />
-      </div>
-
-      <!-- Name -->
-      <div class="col-span-6 sm:col-span-4">
-        <InputLabel
+      <InputGroup>
+        <Label
           for="name"
-          value="Name"
-        />
-        <TextInput
+          required
+        >
+          {{ t("profile.info.field.name") }}
+        </Label>
+
+        <Input
           id="name"
           v-model="form.name"
           autocomplete="name"
-          class="mt-1 block w-full"
+          autofocus
+          name="name"
+          :placeholder="t('profile.info.field.name.placeholder').value"
           required
           type="text"
         />
-        <InputError
-          class="mt-2"
-          :message="form.errors.name ?? ''"
-        />
-      </div>
 
-      <!-- Email -->
-      <div class="col-span-6 sm:col-span-4">
-        <InputLabel
+        <InputError :message="form.errors.name" />
+      </InputGroup>
+
+      <InputGroup>
+        <Label
           for="email"
-          value="Email"
-        />
-        <TextInput
+          required
+        >
+          {{ t("profile.info.field.email") }}
+        </Label>
+
+        <Input
           id="email"
           v-model="form.email"
           autocomplete="username"
-          class="mt-1 block w-full"
+          name="email"
+          :placeholder="t('profile.info.field.email.placeholder').value"
           required
           type="email"
         />
-        <InputError
-          class="mt-2"
-          :message="form.errors.email ?? ''"
-        />
 
-        <div
-          v-if="
-            page.props.jetstream.hasEmailVerification &&
-            user.email_verified_at === null
-          "
-        >
-          <p class="mt-2 text-sm dark:text-white">
-            Your email address is unverified.
+        <InputError :message="form.errors.email" />
+      </InputGroup>
 
-            <Link
-              as="button"
-              class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:text-gray-400 dark:hover:text-gray-100 dark:focus:ring-offset-gray-800"
-              :href="route('verification.send')"
-              method="post"
-              @click.prevent="sendEmailVerification"
-            >
-              Click here to re-send the verification email.
-            </Link>
-          </p>
+      <div v-if="mustVerifyEmail && user.email_verified_at === null">
+        <p>
+          {{ t("profile.info.email.unverified") }}
 
-          <div
-            v-show="verificationLinkSent"
-            class="mt-2 text-sm font-medium text-green-600 dark:text-green-400"
+          <Link
+            as="button"
+            :href="route('verification.send', { lang: locale })"
+            method="post"
           >
-            A new verification link has been sent to your email address.
-          </div>
+            {{ t("profile.info.email.verify-resend") }}
+          </Link>
+        </p>
+
+        <div v-show="status === 'verification-link-sent'">
+          {{ t("profile.info.email.verify-sent") }}
         </div>
       </div>
-    </template>
 
-    <template #actions>
-      <ActionMessage
-        class="me-3"
-        :on="form.recentlySuccessful"
-      >
-        Saved.
-      </ActionMessage>
-
-      <PrimaryButton
-        :class="{ 'opacity-25': form.processing }"
-        :disabled="form.processing"
-      >
-        Save
-      </PrimaryButton>
-    </template>
-  </FormSection>
+      <template #footer>
+        <div class="flex items-center justify-between">
+          <Button
+            icon="mdi:content-save-outline"
+            :loading="form.processing"
+            variant="primary"
+          >
+            {{ t("profile.info.submit") }}
+          </Button>
+        </div>
+      </template>
+    </Card>
+  </form>
 </template>

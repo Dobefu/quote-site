@@ -4,8 +4,10 @@
 /public/build
 /public/hot
 /public/storage
+/public/avatars
 /storage/*.key
 /vendor
+/lang/*.json
 .env
 .env.backup
 .env.production

@@ -9,5 +9,8 @@ cd "$CURRENT_DIR/.." || exit 1
 heading "Installing Laravel"
 ddev exec composer install
 
+heading "Installing Storybook"
+cd storybook && pnpm install
+
 heading "Installing main application"
 ddev exec pnpm i
