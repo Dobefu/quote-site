@@ -25,7 +25,8 @@ const form = useForm({
 const submit = () => {
   form.post(route("quote.add", { lang: locale }), {
     onSuccess: () => {
-      toastStore.success(t("profile.dashboard.info.submit.success").value)
+      toastStore.success(t("quote.add.submit.success").value)
+      form.reset()
     },
   })
 }

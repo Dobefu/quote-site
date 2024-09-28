@@ -13,5 +13,6 @@ return [
         'field.name' => 'Name',
         'field.name.placeholder' => 'John Doe',
         'submit' => 'Add',
+        'submit.success' => 'Your quote has been added!',
     ],
 ];
