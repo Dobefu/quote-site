@@ -80,7 +80,7 @@ const paddingFooterHeader = computed(() => {
       v-if="slots.header"
       :class="
         twMerge(
-          'border-b border-b-gray-200 bg-gray-100 text-gray-600 dark:border-b-gray-800 dark:bg-gray-800 dark:text-gray-300',
+          'border-b border-b-gray-200 bg-gray-100 text-gray-600 dark:border-b-gray-800 dark:bg-gray-900 dark:text-gray-200',
           padding,
           paddingFooterHeader,
         )

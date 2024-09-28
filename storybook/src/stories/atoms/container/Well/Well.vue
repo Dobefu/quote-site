@@ -29,7 +29,7 @@ const padding = computed(() => {
   <div
     :class="
       twMerge(
-        'border border-gray-200 bg-white shadow-inner dark:border-gray-800 dark:bg-gray-900',
+        'border border-gray-200 bg-white shadow-inner dark:border-gray-800 dark:bg-gray-950',
         padding,
         props.class,
       )
