@@ -107,7 +107,7 @@ const toastPosition = computed(() => {
           "
         >
           <Button
-            class="rounded-full border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900"
+            class="rounded-full border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-950"
             data-test-id="toasts-close-all"
             size="square"
             variant="ghost"

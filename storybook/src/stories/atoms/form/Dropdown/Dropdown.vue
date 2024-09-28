@@ -220,7 +220,7 @@ defineExpose({ open, close, toggle, selectItem })
       >
         <div
           ref="dropdownListRef"
-          class="overflow-hidden rounded-xl border bg-white shadow-md dark:border-gray-800 dark:bg-gray-900"
+          class="overflow-hidden rounded-xl border bg-white shadow-md dark:border-gray-800 dark:bg-gray-950"
         >
           <div class="max-h-[50vh] overflow-auto">
             <div
