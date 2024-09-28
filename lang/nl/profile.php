@@ -3,9 +3,11 @@
 declare(strict_types=1);
 
 return [
-    'title' => 'Welkom, :name!',
-    'meta.title' => 'Dashboard',
-    'meta.description' => 'Uw persoonlijke dashboard.',
+    'dashboard' => [
+        'title' => 'Welkom, :name!',
+        'meta.title' => 'Dashboard',
+        'meta.description' => 'Uw persoonlijke dashboard.',
+    ],
     'edit' => [
         'title' => 'Bewerk Profiel',
         'meta.title' => 'Bewerk uw profiel',

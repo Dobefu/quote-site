@@ -10,9 +10,9 @@ const { t } = useLocale()
 
 <template>
   <Head>
-    <title>{{ t("profile.meta.title") }}</title>
+    <title>{{ t("profile.dashboard.meta.title") }}</title>
     <meta
-      :content="t('profile.meta.description').value"
+      :content="t('profile.dashboard.meta.description').value"
       name="description"
     />
   </Head>
@@ -20,7 +20,7 @@ const { t } = useLocale()
   <BaseLayout>
     <Container class="flex flex-col gap-4">
       <Heading type="h2">
-        {{ t("profile.title", { name: page.props.auth.user.name }) }}
+        {{ t("profile.dashboard.title", { name: page.props.auth.user.name }) }}
       </Heading>
     </Container>
   </BaseLayout>
