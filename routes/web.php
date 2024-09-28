@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\QuoteController;
 use App\Http\Middleware\Locale;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,6 +21,9 @@ Route::prefix('{lang?}')->middleware(Locale::class)->group(function () {
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+        Route::get('/quote/add', [QuoteController::class, 'add'])->name('quote.add');
+        Route::post('/quote/add', [QuoteController::class, 'create'])->name('quote.create');
     });
 });
 
