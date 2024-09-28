@@ -14,5 +14,5 @@ html.dark {
 
 html .sb-show-main,
 html .sbdocs-preview {
-  @apply bg-gray-100 dark:bg-gray-950;
+  @apply bg-gray-100 dark:bg-gray-800;
 }

@@ -100,7 +100,7 @@ defineExpose({ openMobileMenu, closeMobileMenu })
     ref="headerRef"
     :class="
       twMerge(
-        'sticky top-0 z-40 bg-gray-100/80 backdrop-blur-sm transition-shadow duration-500 dark:bg-gray-950/80',
+        'sticky top-0 z-40 bg-gray-100/80 backdrop-blur-sm transition-shadow duration-500 dark:bg-gray-800/80',
         y > 0 ? 'shadow-md' : '',
         props.class,
       )
@@ -224,7 +224,7 @@ defineExpose({ openMobileMenu, closeMobileMenu })
             <div
               v-if="isMobileMenuInnerOpen"
               ref="mobileMenuRef"
-              class="fixed bottom-0 z-40 w-80 max-w-full bg-gray-100/80 shadow backdrop-blur-sm dark:bg-gray-950/80"
+              class="fixed bottom-0 z-40 w-80 max-w-full bg-gray-100/80 shadow backdrop-blur-sm dark:bg-gray-800/80"
               data-test-id="header-menu-body"
               :style="{ top: `${headerHeight}px` }"
             >

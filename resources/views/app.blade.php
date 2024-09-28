@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html
-    class="h-full antialiased bg-gray-100 dark:bg-gray-950"
+    class="h-full antialiased bg-gray-100 dark:bg-gray-800"
     lang="{{ str_replace('_', '-', app()->getLocale()) }}"
     dir="{{ config('app.locales')[app()->getLocale()]['dir'] ?? 'ltr' }}"
 >
