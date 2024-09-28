@@ -148,7 +148,7 @@ defineExpose({ open, close, toggle, selectItem })
       ref="dropdownRef"
       :class="
         twMerge(
-          'flex select-none items-center justify-between gap-4 rounded-xl border bg-white px-4 py-3 transition-shadow disabled:bg-gray-100 disabled:text-gray-400 dark:border-gray-700 dark:bg-gray-950 dark:disabled:bg-gray-700',
+          'flex select-none items-center justify-between gap-4 rounded-xl border bg-white px-4 py-3 transition-shadow disabled:bg-gray-100 disabled:text-gray-400 dark:border-gray-700 dark:bg-gray-900 dark:disabled:bg-gray-700',
           isOpen ? 'shadow-inner' : 'shadow',
           props.class,
         )
