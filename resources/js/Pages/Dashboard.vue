@@ -2,7 +2,15 @@
 import { useLocale } from "@/composables/useLocale"
 import BaseLayout from "@/Layouts/BaseLayout.vue"
 import { Head, usePage } from "@inertiajs/vue3"
-import { Container, Heading } from "@local/ui"
+import { Card, Container, Heading, Well } from "@local/ui"
+
+defineProps<{
+  quotes?: {
+    id: number
+    quote: string
+    name: string
+  }[]
+}>()
 
 const page = usePage()
 const { t } = useLocale()
@@ -17,11 +25,29 @@ const { t } = useLocale()
     />
   </Head>
 
-  <BaseLayout>
-    <Container class="flex flex-col gap-4">
+  <BaseLayout class="flex-col gap-8">
+    <Container>
       <Heading type="h2">
         {{ t("profile.dashboard.title", { name: page.props.auth.user.name }) }}
       </Heading>
+    </Container>
+
+    <Container type="narrow">
+      <Card>
+        <Heading
+          class="py-4 text-center"
+          type="h2"
+        >
+          {{ t("quote.list.title") }}
+        </Heading>
+
+        <Well
+          v-for="quote in $props.quotes"
+          :key="quote.id"
+        >
+          “{{ quote.quote }}” - {{ quote.name }}
+        </Well>
+      </Card>
     </Container>
   </BaseLayout>
 </template>

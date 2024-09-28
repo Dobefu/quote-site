@@ -3,6 +3,9 @@
 declare(strict_types=1);
 
 return [
+    'list' => [
+        'title' => 'Quotes',
+    ],
     'add' => [
         'title' => 'Add a new quote',
         'meta.title' => 'New Quote',
