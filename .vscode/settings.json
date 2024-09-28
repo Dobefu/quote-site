@@ -70,5 +70,7 @@
     "**/storage/framework": true,
     "**/storybook/storybook-static": true,
     "**/storybook/coverage": true
-  }
+  },
+
+  "laravel-pint.enable": true
 }
