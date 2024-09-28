@@ -8,8 +8,18 @@ import {
   ToastContainer,
   type DropdownItem,
 } from "@local/ui"
-import { computed } from "vue"
+import { twMerge } from "tailwind-merge"
+import { computed, HTMLAttributes } from "vue"
 import { useRoute } from "ziggy-js"
+
+withDefaults(
+  defineProps<{
+    class?: HTMLAttributes["class"]
+  }>(),
+  {
+    class: undefined,
+  },
+)
 
 type Method = "get" | "post"
 
@@ -94,7 +104,7 @@ async function setLanguage(item: DropdownItem) {
 
   <main
     id="main-content"
-    class="flex flex-1"
+    :class="twMerge('flex flex-1', $props.class)"
   >
     <slot />
   </main>
