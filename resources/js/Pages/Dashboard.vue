@@ -2,7 +2,7 @@
 import { useLocale } from "@/composables/useLocale"
 import BaseLayout from "@/Layouts/BaseLayout.vue"
 import { Head, usePage } from "@inertiajs/vue3"
-import { Card, Container, Heading, Well } from "@local/ui"
+import { Container, Heading, Well } from "@local/ui"
 
 defineProps<{
   quotes?: {
@@ -32,22 +32,23 @@ const { t } = useLocale()
       </Heading>
     </Container>
 
-    <Container type="narrow">
-      <Card>
-        <Heading
-          class="py-4 text-center"
-          type="h2"
-        >
-          {{ t("quote.list.title") }}
-        </Heading>
+    <Container
+      class="flex flex-col gap-4"
+      type="narrow"
+    >
+      <Heading
+        class="py-4 text-center"
+        type="h2"
+      >
+        {{ t("quote.list.title") }}
+      </Heading>
 
-        <Well
-          v-for="quote in $props.quotes"
-          :key="quote.id"
-        >
-          “{{ quote.quote }}” - {{ quote.name }}
-        </Well>
-      </Card>
+      <Well
+        v-for="quote in $props.quotes"
+        :key="quote.id"
+      >
+        “{{ quote.quote }}” - {{ quote.name }}
+      </Well>
     </Container>
   </BaseLayout>
 </template>
