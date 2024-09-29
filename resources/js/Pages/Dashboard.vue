@@ -2,7 +2,7 @@
 import { useLocale } from "@/composables/useLocale"
 import BaseLayout from "@/Layouts/BaseLayout.vue"
 import { Head, usePage } from "@inertiajs/vue3"
-import { Container, Heading, Well } from "@local/ui"
+import { Button, Container, Heading, Well } from "@local/ui"
 
 defineProps<{
   quotes?: {
@@ -13,7 +13,7 @@ defineProps<{
 }>()
 
 const page = usePage()
-const { t } = useLocale()
+const { locale, t } = useLocale()
 </script>
 
 <template>
@@ -36,12 +36,21 @@ const { t } = useLocale()
       class="flex flex-col gap-4"
       type="narrow"
     >
-      <Heading
-        class="py-4 text-center"
-        type="h2"
-      >
-        {{ t("quote.list.title") }}
-      </Heading>
+      <div class="flex items-center justify-between">
+        <Heading
+          class="py-4"
+          type="h2"
+        >
+          {{ t("quote.list.title") }}
+        </Heading>
+
+        <Button
+          :to="route('quote.add', { lang: locale })"
+          variant="primary"
+        >
+          {{ t("quote.list.add") }}
+        </Button>
+      </div>
 
       <Well
         v-for="quote in $props.quotes"

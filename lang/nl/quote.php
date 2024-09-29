@@ -5,6 +5,7 @@ declare(strict_types=1);
 return [
     'list' => [
         'title' => 'Quotes',
+        'add' => 'Quote toevoegen',
     ],
     'add' => [
         'title' => 'Maak een nieuwe quote',
