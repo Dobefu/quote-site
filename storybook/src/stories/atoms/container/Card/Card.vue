@@ -19,7 +19,7 @@ const props = withDefaults(
 
 const slots = useSlots()
 
-const align = computed(() => {
+const alignClass = computed(() => {
   switch (props.align) {
     case "middle":
       return "text-center"
@@ -69,7 +69,7 @@ const paddingFooterHeader = computed(() => {
     :class="
       twMerge(
         'overflow-hidden border border-gray-200 bg-white shadow dark:border-gray-800 dark:bg-gray-950',
-        align,
+        alignClass,
         borderRadius,
         props.wrapperClass,
       )
