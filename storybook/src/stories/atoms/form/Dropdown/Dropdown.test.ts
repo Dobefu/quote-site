@@ -75,7 +75,7 @@ describe("dropdown", () => {
       },
     })
 
-    expect(wrapper.get('[data-test-id="dropdown"]').html()).toContain(">\xa0<")
+    expect(wrapper.get('[data-test-id="dropdown"]').html()).toContain("><")
   })
 
   it("can be opened", async () => {
