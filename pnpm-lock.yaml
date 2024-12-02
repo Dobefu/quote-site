@@ -49,8 +49,8 @@ importers:
         specifier: ^9.31.0
         version: 9.31.0(eslint@9.16.0(jiti@1.21.6))
       laravel-vite-plugin:
-        specifier: ^1.0.5
-        version: 1.0.5(vite@5.4.11)
+        specifier: ^1.0.6
+        version: 1.0.6(vite@5.4.11)
       postcss:
         specifier: ^8.4.49
         version: 8.4.49
@@ -1015,8 +1015,8 @@ packages:
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
 
-  laravel-vite-plugin@1.0.5:
-    resolution: {integrity: sha512-Zv+to82YLBknDCZ6g3iwOv9wZ7f6EWStb9pjSm7MGe9Mfoy5ynT2ssZbGsMr1udU6rDg9HOoYEVGw5Qf+p9zbw==}
+  laravel-vite-plugin@1.0.6:
+    resolution: {integrity: sha512-B34OqmZc/rV1KvSjst8SsUm/LKHsuDusw8jiZCIhlnTHXbXnK89JUM9pTJuk6E/Vc/1DT2gX7qNfhipak1WS8w==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -2476,9 +2476,9 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  laravel-vite-plugin@1.0.5(vite@5.4.11):
+  laravel-vite-plugin@1.0.6(vite@5.4.11):
     dependencies:
-      picocolors: 1.0.1
+      picocolors: 1.1.1
       vite: 5.4.11
       vite-plugin-full-reload: 1.2.0
 
