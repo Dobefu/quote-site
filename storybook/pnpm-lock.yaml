@@ -12,8 +12,8 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0(vue@3.5.12(typescript@5.6.3))
       '@inertiajs/vue3':
-        specifier: ^1.2.0
-        version: 1.2.0(vue@3.5.12(typescript@5.6.3))
+        specifier: ^2.0.0
+        version: 2.0.0(vue@3.5.12(typescript@5.6.3))
       '@storybook/addon-a11y':
         specifier: ^8.3.4
         version: 8.3.4(storybook@8.3.5)
@@ -440,11 +440,11 @@ packages:
     peerDependencies:
       vue: '>=3'
 
-  '@inertiajs/core@1.2.0':
-    resolution: {integrity: sha512-6U0gqCPbGGGMcLoDm+ckKipc5gptZMmfVFfPGdO7vlO7yipWf1RD+TKkcZGJklFvfgFMKwK2VPw8GAv1OctuQA==}
+  '@inertiajs/core@2.0.0':
+    resolution: {integrity: sha512-2kvlk731NjwfXUku/ZoXsZNcOzx985icHtTC1dgN+8sAZtJfEg9QBrQ7sBjeLYiWtKgobJdwwpeDaexEneAtLQ==}
 
-  '@inertiajs/vue3@1.2.0':
-    resolution: {integrity: sha512-Y6AsvwIK/E1pQKAMp8B7i99CbNApcTYb7j8R+TXM/AFQG6yBlQ1Qb9oFMItb6VimXSnDyfO4+FWe/JPLk9OIVA==}
+  '@inertiajs/vue3@2.0.0':
+    resolution: {integrity: sha512-U38EM8jqlfX2WmVK/vJWZr+jD71qvnmNPnUuZ+4mS2QNFdNmUeg2M/HbLmvR4WLWsxIl+7GYQySy4sW3tu/uTA==}
     peerDependencies:
       vue: ^3.0.0
 
@@ -2694,11 +2694,11 @@ packages:
       typescript:
         optional: true
 
-  vue-component-type-helpers@2.1.10:
-    resolution: {integrity: sha512-lfgdSLQKrUmADiSV6PbBvYgQ33KF3Ztv6gP85MfGaGaSGMTXORVaHT1EHfsqCgzRNBstPKYDmvAV9Do5CmJ07A==}
-
   vue-component-type-helpers@2.1.6:
     resolution: {integrity: sha512-ng11B8B/ZADUMMOsRbqv0arc442q7lifSubD0v8oDXIFoMg/mXwAPUunrroIDkY+mcD0dHKccdaznSVp8EoX3w==}
+
+  vue-component-type-helpers@2.2.0:
+    resolution: {integrity: sha512-cYrAnv2me7bPDcg9kIcGwjJiSB6Qyi08+jLDo9yuvoFQjzHiPTzML7RnkJB1+3P6KMsX/KbCD4QE3Tv/knEllw==}
 
   vue-demi@0.14.10:
     resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
@@ -3001,18 +3001,17 @@ snapshots:
       '@iconify/types': 2.0.0
       vue: 3.5.12(typescript@5.6.3)
 
-  '@inertiajs/core@1.2.0':
+  '@inertiajs/core@2.0.0':
     dependencies:
       axios: 1.7.7
       deepmerge: 4.3.1
-      nprogress: 0.2.0
       qs: 6.13.0
     transitivePeerDependencies:
       - debug
 
-  '@inertiajs/vue3@1.2.0(vue@3.5.12(typescript@5.6.3))':
+  '@inertiajs/vue3@2.0.0(vue@3.5.12(typescript@5.6.3))':
     dependencies:
-      '@inertiajs/core': 1.2.0
+      '@inertiajs/core': 2.0.0
       lodash.clonedeep: 4.5.0
       lodash.isequal: 4.5.0
       vue: 3.5.12(typescript@5.6.3)
@@ -3494,7 +3493,7 @@ snapshots:
       ts-dedent: 2.2.0
       type-fest: 2.19.0
       vue: 3.5.12(typescript@5.6.3)
-      vue-component-type-helpers: 2.1.10
+      vue-component-type-helpers: 2.2.0
 
   '@storybook/vue3@8.3.5(storybook@8.3.5)(vue@3.5.12(typescript@5.6.3))':
     dependencies:
@@ -3508,7 +3507,7 @@ snapshots:
       ts-dedent: 2.2.0
       type-fest: 2.19.0
       vue: 3.5.12(typescript@5.6.3)
-      vue-component-type-helpers: 2.1.10
+      vue-component-type-helpers: 2.2.0
 
   '@testing-library/dom@10.4.0':
     dependencies:
@@ -4770,7 +4769,8 @@ snapshots:
 
   normalize-path@3.0.0: {}
 
-  nprogress@0.2.0: {}
+  nprogress@0.2.0:
+    optional: true
 
   object-assign@4.1.1: {}
 
@@ -5492,9 +5492,9 @@ snapshots:
     optionalDependencies:
       typescript: 5.6.3
 
-  vue-component-type-helpers@2.1.10: {}
-
   vue-component-type-helpers@2.1.6: {}
+
+  vue-component-type-helpers@2.2.0: {}
 
   vue-demi@0.14.10(vue@3.5.12(typescript@5.6.3)):
     dependencies:
