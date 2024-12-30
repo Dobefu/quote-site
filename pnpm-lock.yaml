@@ -22,8 +22,8 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0(vue@3.5.13(typescript@5.6.3))
       '@inertiajs/vue3':
-        specifier: ^1.2.0
-        version: 1.2.0(vue@3.5.13(typescript@5.6.3))
+        specifier: ^2.0.0
+        version: 2.0.0(vue@3.5.13(typescript@5.6.3))
       '@tailwindcss/forms':
         specifier: ^0.5.9
         version: 0.5.9(tailwindcss@3.4.17)
@@ -302,11 +302,11 @@ packages:
     peerDependencies:
       vue: '>=3'
 
-  '@inertiajs/core@1.2.0':
-    resolution: {integrity: sha512-6U0gqCPbGGGMcLoDm+ckKipc5gptZMmfVFfPGdO7vlO7yipWf1RD+TKkcZGJklFvfgFMKwK2VPw8GAv1OctuQA==}
+  '@inertiajs/core@2.0.0':
+    resolution: {integrity: sha512-2kvlk731NjwfXUku/ZoXsZNcOzx985icHtTC1dgN+8sAZtJfEg9QBrQ7sBjeLYiWtKgobJdwwpeDaexEneAtLQ==}
 
-  '@inertiajs/vue3@1.2.0':
-    resolution: {integrity: sha512-Y6AsvwIK/E1pQKAMp8B7i99CbNApcTYb7j8R+TXM/AFQG6yBlQ1Qb9oFMItb6VimXSnDyfO4+FWe/JPLk9OIVA==}
+  '@inertiajs/vue3@2.0.0':
+    resolution: {integrity: sha512-U38EM8jqlfX2WmVK/vJWZr+jD71qvnmNPnUuZ+4mS2QNFdNmUeg2M/HbLmvR4WLWsxIl+7GYQySy4sW3tu/uTA==}
     peerDependencies:
       vue: ^3.0.0
 
@@ -1102,9 +1102,6 @@ packages:
     resolution: {integrity: sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==}
     engines: {node: '>=0.10.0'}
 
-  nprogress@0.2.0:
-    resolution: {integrity: sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==}
-
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
@@ -1687,18 +1684,17 @@ snapshots:
       '@iconify/types': 2.0.0
       vue: 3.5.13(typescript@5.6.3)
 
-  '@inertiajs/core@1.2.0':
+  '@inertiajs/core@2.0.0':
     dependencies:
       axios: 1.7.9
       deepmerge: 4.3.1
-      nprogress: 0.2.0
       qs: 6.12.3
     transitivePeerDependencies:
       - debug
 
-  '@inertiajs/vue3@1.2.0(vue@3.5.13(typescript@5.6.3))':
+  '@inertiajs/vue3@2.0.0(vue@3.5.13(typescript@5.6.3))':
     dependencies:
-      '@inertiajs/core': 1.2.0
+      '@inertiajs/core': 2.0.0
       lodash.clonedeep: 4.5.0
       lodash.isequal: 4.5.0
       vue: 3.5.13(typescript@5.6.3)
@@ -2534,8 +2530,6 @@ snapshots:
   normalize-path@3.0.0: {}
 
   normalize-range@0.1.2: {}
-
-  nprogress@0.2.0: {}
 
   nth-check@2.1.1:
     dependencies:
