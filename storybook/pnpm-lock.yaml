@@ -18,8 +18,8 @@ importers:
         specifier: ^8.3.4
         version: 8.3.4(storybook@8.3.5)
       '@storybook/addon-controls':
-        specifier: ^8.3.4
-        version: 8.3.4(storybook@8.3.5)
+        specifier: ^8.3.5
+        version: 8.3.5(storybook@8.3.5)
       '@storybook/addon-essentials':
         specifier: ^8.3.4
         version: 8.3.4(storybook@8.3.5)(webpack-sources@3.2.3)
@@ -645,6 +645,11 @@ packages:
     resolution: {integrity: sha512-qQcaK6dczsb6wXkzGZKOjUYNA7FfKBewRv6NvoVKYY6LfhllGOkmUAtYpdtQG8adsZWTSoZaAOJS2vP2uM67lw==}
     peerDependencies:
       storybook: ^8.3.4
+
+  '@storybook/addon-controls@8.3.5':
+    resolution: {integrity: sha512-2eCVobUUvY1Rq7sp1U8Mx8t44VXwvi0E+hqyrsqOx5TTSC/FUQ+hNAX6GSYUcFIyQQ1ORpKNlUjAAdjxBv1ZHQ==}
+    peerDependencies:
+      storybook: ^8.3.5
 
   '@storybook/addon-docs@8.3.4':
     resolution: {integrity: sha512-TWauhqF/gJgfwPuWeM6KM3LwC+ErCOM+K2z16w3vgao9s67sij8lnrdAoQ0hjA+kw2/KAdCakFS6FyciG81qog==}
@@ -3217,6 +3222,14 @@ snapshots:
       ts-dedent: 2.2.0
 
   '@storybook/addon-controls@8.3.4(storybook@8.3.5)':
+    dependencies:
+      '@storybook/global': 5.0.0
+      dequal: 2.0.3
+      lodash: 4.17.21
+      storybook: 8.3.5
+      ts-dedent: 2.2.0
+
+  '@storybook/addon-controls@8.3.5(storybook@8.3.5)':
     dependencies:
       '@storybook/global': 5.0.0
       dequal: 2.0.3
