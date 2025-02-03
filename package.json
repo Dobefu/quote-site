@@ -1,7 +1,6 @@
 {
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@9.6.0+sha256.dae0f7e822c56b20979bb5965e3b73b8bdabb6b8b8ef121da6d857508599ca35",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build && vite build --ssr",
@@ -35,5 +34,6 @@
     "vite": "^6.0.11",
     "vue": "^3.5.13",
     "vue-tsc": "^2.2.0"
-  }
+  },
+  "packageManager": "pnpm@10.1.0+sha512.c89847b0667ddab50396bbbd008a2a43cf3b581efd59cf5d9aa8923ea1fb4b8106c041d540d08acb095037594d73ebc51e1ec89ee40c88b30b8a66c0fae0ac1b"
 }
