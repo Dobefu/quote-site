@@ -27,6 +27,8 @@ jobs:
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
     - name: Enable Corepack
       run: corepack enable
+    - name: Pin PNPM to version 10
+      run: corepack prepare pnpm@10.0.0 --activate
     - name: Install NodeJS Dependencies
       run: cd .. ; pnpm i ; cd storybook
     - name: Install Storybook Dependencies
