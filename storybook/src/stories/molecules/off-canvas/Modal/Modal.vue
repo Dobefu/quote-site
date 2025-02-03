@@ -19,7 +19,10 @@ const props = withDefaults(
 
 const emit = defineEmits(["onClose"])
 
-const slots = useSlots()
+const slots: {
+  title?: (_: object) => unknown
+  actions?: (_: object) => unknown
+} = useSlots()
 
 const isOpen = ref(false)
 const isInnerOpen = ref(false)
