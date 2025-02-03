@@ -29,7 +29,7 @@
   },
   "peerDependencies": {
     "@iconify/vue": "^4.2.0",
-    "@inertiajs/vue3": "^2.0.0",
+    "@inertiajs/vue3": "^2.0.3",
     "@vueuse/core": "^10.11.0",
     "@vueuse/integrations": "^10.11.0",
     "focus-trap": "^7.5.4",
@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@iconify/vue": "^4.2.0",
-    "@inertiajs/vue3": "^2.0.0",
+    "@inertiajs/vue3": "^2.0.3",
     "@storybook/addon-a11y": "^8.3.4",
     "@storybook/addon-controls": "^8.3.5",
     "@storybook/addon-essentials": "^8.3.5",
