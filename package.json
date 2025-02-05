@@ -22,7 +22,7 @@
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.9",
     "eslint": "^9.16.0",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-vue": "^9.32.0",
     "laravel-vite-plugin": "^1.1.1",
     "postcss": "^8.4.49",
